@@ -22,6 +22,8 @@ BLUF
   - Pages are so light they load almost instantly
   - Implements static site generation in Python reading data from a SQLite db
 
+  hn: https://news.ycombinator.com/item?id=46229756
+
 WELCOME
 
   This repo contains code and data for my personal website and knowledge
