@@ -1,56 +1,54 @@
 <span class="dateage-component" style="font-size: 0.8rem"></span>
 
 <script>
-  (function() {{
-    // Inputs injected by Python (Single braces for str.format replacement)
-    const createdStr = "{created_time}";
-    const birthStr = "{AUTHOR_BIRTHDAY}";
+  // Inputs injected by Python (Single braces for str.format replacement)
+  const createdStr = "{created_time}";
+  const birthStr = "{AUTHOR_BIRTHDAY}";
 
-    // Select the span immediately preceding this script
-    const container = document.currentScript.previousElementSibling;
+  // Select the span immediately preceding this script
+  const container = document.currentScript.previousElementSibling;
 
-    const formatDate = (dateString, birthString) => {{
-      const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.2425;
+  const formatDate = (dateString, birthString) => {{
+    const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.2425;
 
-      const targetDate = new Date(dateString);
-      const birthDate = new Date(birthString);
-      const now = new Date();
+    const targetDate = new Date(dateString);
+    const birthDate = new Date(birthString);
+    const now = new Date();
 
-      // Calculate time difference relative to now (client-side)
-      const timeDifference = Math.abs(now.getTime() - targetDate.getTime());
-      const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    // Calculate time difference relative to now (client-side)
+    const timeDifference = Math.abs(now.getTime() - targetDate.getTime());
+    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-      // Calculate age at the created_time of the entry
-      const ageAtPostTime = (targetDate.getTime() - birthDate.getTime()) / MS_PER_YEAR;
-      const ageSuffix = ageAtPostTime >= 0
-        ? `, ${{ageAtPostTime.toFixed(2)}} y.o.`
-        : '';
+    // Calculate age at the created_time of the entry
+    const ageAtPostTime = (targetDate.getTime() - birthDate.getTime()) / MS_PER_YEAR;
+    const ageSuffix = ageAtPostTime >= 0
+      ? `, ${{ageAtPostTime.toFixed(2)}} y.o.`
+      : '';
 
-      // Format the display date (e.g. "December 15, 2022")
-      const fullDate = targetDate.toLocaleString('en-us', {{
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-      }});
+    // Format the display date (e.g. "December 15, 2022")
+    const fullDate = targetDate.toLocaleString('en-us', {{
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }});
 
-      // Return the string based on "Ago" buckets
-      if (daysAgo < 1) {{
-        return 'Today';
-      }} else if (daysAgo < 7) {{
-        return `${{fullDate}} (${{daysAgo}}d ago${{ageSuffix}})`;
-      }} else if (daysAgo < 30) {{
-        const weeksAgo = Math.floor(daysAgo / 7);
-        return `${{fullDate}} (${{weeksAgo}}w ago${{ageSuffix}})`;
-      }} else if (daysAgo < 365) {{
-        const monthsAgo = Math.floor(daysAgo / 30);
-        return `${{fullDate}} (${{monthsAgo}}mo ago${{ageSuffix}})`;
-      }} else {{
-        const yearsAgo = Math.floor(daysAgo / 365);
-        return `${{fullDate}} (${{yearsAgo}}y ago${{ageSuffix}})`;
-      }}
-    }};
+    // Return the string based on "Ago" buckets
+    if (daysAgo < 1) {{
+      return 'Today';
+    }} else if (daysAgo < 7) {{
+      return `${{fullDate}} (${{daysAgo}}d ago${{ageSuffix}})`;
+    }} else if (daysAgo < 30) {{
+      const weeksAgo = Math.floor(daysAgo / 7);
+      return `${{fullDate}} (${{weeksAgo}}w ago${{ageSuffix}})`;
+    }} else if (daysAgo < 365) {{
+      const monthsAgo = Math.floor(daysAgo / 30);
+      return `${{fullDate}} (${{monthsAgo}}mo ago${{ageSuffix}})`;
+    }} else {{
+      const yearsAgo = Math.floor(daysAgo / 365);
+      return `${{fullDate}} (${{yearsAgo}}y ago${{ageSuffix}})`;
+    }}
+  }};
 
-    // Render
-    container.innerText = formatDate(createdStr, birthStr);
-  }})();
+  // Render
+  container.innerText = formatDate(createdStr, birthStr);
 </script>
