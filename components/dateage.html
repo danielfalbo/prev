@@ -1,7 +1,6 @@
 <span class="dateage-component" style="font-size: 0.8rem"></span>
-
 <script>
-  // Inputs injected by Python (Single braces for str.format replacement)
+  // Inputs injected by Python (single braces for str.format replacement)
   const createdStr = "{created_time}";
   const birthStr = "{AUTHOR_BIRTHDAY}";
 
@@ -27,9 +26,7 @@
 
     // Format the display date (e.g. "December 15, 2022")
     const fullDate = targetDate.toLocaleString('en-us', {{
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
+      month: 'long', day: 'numeric', year: 'numeric'
     }});
 
     // Return the string based on "Ago" buckets
