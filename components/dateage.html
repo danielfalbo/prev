@@ -1,38 +1,32 @@
 <span class="dateage-component" style="font-size: 0.8rem"></span>
+
 <script>
   (function() {{
     // Inputs injected by Python (Single braces for str.format replacement)
     const createdStr = "{created_time}";
     const birthStr = "{AUTHOR_BIRTHDAY}";
 
-    // 2. Select the span immediately preceding this script
+    // Select the span immediately preceding this script
     const container = document.currentScript.previousElementSibling;
 
-    // 3. Logic ported from your old TypeScript function
     const formatDate = (dateString, birthString) => {{
       const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.2425;
 
-      // Parse dates
       const targetDate = new Date(dateString);
       const birthDate = new Date(birthString);
       const now = new Date();
 
-      // Ensure valid dates
-      if (isNaN(targetDate.getTime()) || isNaN(birthDate.getTime())) {{
-        return dateString; // Fallback
-      }}
-
-      // Calculate time difference relative to NOW (Client side)
+      // Calculate time difference relative to now (client-side)
       const timeDifference = Math.abs(now.getTime() - targetDate.getTime());
       const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-      // Calculate age at the time of the POST
+      // Calculate age at the created_time of the entry
       const ageAtPostTime = (targetDate.getTime() - birthDate.getTime()) / MS_PER_YEAR;
       const ageSuffix = ageAtPostTime >= 0
         ? `, ${{ageAtPostTime.toFixed(2)}} y.o.`
         : '';
 
-      // Format the display date (e.g. December 15, 2022)
+      // Format the display date (e.g. "December 15, 2022")
       const fullDate = targetDate.toLocaleString('en-us', {{
         month: 'long',
         day: 'numeric',
@@ -56,7 +50,7 @@
       }}
     }};
 
-    // 4. Render
+    // Render
     container.innerText = formatDate(createdStr, birthStr);
   }})();
 </script>
