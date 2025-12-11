@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Home | danielfalbo</title>
+    <style>
+      {css}
+    </style>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico" />
+  </head>
+
+  <body>
+    <p class="navbar-links">
+      <a href="./index.html">home</a><span> · </span
+      ><a href="./notes/code.html">code</a><span> · </span
+      ><a href="./notes/words.html">words</a>
+    </p>
+    <div
+      style="display: flex; justify-content: space-between; align-items: center"
+    >
+      <div>
+        <p style="font-size: 3rem; font-weight: 700; margin: 0px">
+          Hi, I'm Daniel 👋
+        </p>
+      </div>
+      <div>
+        <img
+          src="./assets/me.jpeg"
+          style="
+            border-radius: 50%;
+            width: 8rem;
+            height: 8rem;
+            border: 1px solid rgb(38, 28, 77);
+          "
+        />
+      </div>
+    </div>
+
+    <div class="space-y-8">
+      <div>
+        <p><strong>About</strong></p>
+        <div style="font-weight: 300">
+          <p>
+            🇬🇧 Software Engineer at
+            <a href="https://en.wikipedia.org/wiki/Palantir_Technologies"
+              >PLTR</a
+            >
+            London
+          </p>
+          <p>
+            🧮 Pursuing a BSc in
+            <a href="https://acsai.di.uniroma1.it/">Computers &amp; AI</a>
+          </p>
+          <p>🎂 <span id="live-age"></span> years old</p>
+          <p>🕺 Dancer</p>
+        </div>
+      </div>
+
+      <div>
+        <p>
+          <strong>Fundamental things I believe about society and life</strong>
+        </p>
+
+        <div style="opacity: 0.8; font-size: 0.8rem">
+          <p>>_ We can't fix people, we can only love them.</p>
+          <p>>_ Hard things are always worthwhile.</p>
+
+          <p>>_ Knowledge is power.</p>
+
+          <p>>_ "One day" will never come, today is all we have.</p>
+
+          <p>
+            >_ The human attention span decrease is the saddest loss of this
+            decade.
+          </p>
+
+          <p>
+            >_ You vote with your attention and purchases, not at the ballet
+            box.
+          </p>
+
+          <p>
+            >_ Intelligence is a myth and emotional maturity is all that
+            matters, even in professional/technical pursuits.
+          </p>
+
+          <p>
+            >_ Decent financial freedom is a prerequisite for living
+            deliberately, but no more than decent, for
+            <a href="https://wikipedia.org/wiki/Hedonic_treadmill"
+              >hedonic adaptation</a
+            >
+            kicks in promptly.
+          </p>
+
+          <p>
+            >_ Time spent accumulating credentials (prestige) or following
+            arbitrary social norms (status) doesn't lead to any meaningful
+            outcome and is basically just lost forever.
+          </p>
+
+          <p>
+            >_ The only way to create something good is to create it for you to
+            be proud of it afterwards, not for customers or for your audience.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <p>
+          <strong>Fundamental things I believe about software</strong>
+        </p>
+
+        <div style="opacity: 0.8; font-size: 0.8rem">
+          <p>
+            >_ Software <a href="https://suckless.org/philosophy/">sucks</a>.
+          </p>
+
+          <p>>_ Users are not dumb.</p>
+          <p>>_ Reliable software delivers better UX than the best UI.</p>
+          <p>
+            >_ Speed
+            <a href="https://lemire.me/blog/2025/12/05/why-speed-matters/"
+              >matters</a
+            >
+            and developers
+            <a href="https://www.scattered-thoughts.net/writing/speed-matters/"
+              >experience</a
+            >
+            is the only way to get good products.
+          </p>
+          <p>
+            >_ Computers
+            <a
+              href="https://wikipedia.org/wiki/Elm_(programming_language)#:~:text=no%20runtime%20exceptions%20in%20practice%22"
+              >don't</a
+            >
+            make
+            <a href="https://wikipedia.org/wiki/Exception_handling">errors</a>.
+          </p>
+          <p>>_ Silicon valley has more companies than ideas.</p>
+          <p>
+            >_ We need more
+            <a href="https://karpathy.ai/blog/calculator.html">calculators</a>.
+          </p>
+        </div>
+      </div>
+
+      <code>:wq↵</code>
+    </div>
+
+    <script>
+      /* =================== Globals ======================== */
+
+      /* Global temporary buffer.
+       *
+       * JavaScript is single-threaded so this won't cause issues
+       * as long as callers will set it to null after their operations. */
+      let _tmp = null;
+
+      /* =============== State management =================== */
+
+      function createSignal(value) {
+        const observers = new Set();
+        return [
+          () => {
+            if (_tmp != null) observers.add(_tmp);
+            return value;
+          },
+
+          (newValue) => {
+            value = newValue;
+            for (let observer of observers) {
+              observer();
+            }
+          },
+        ];
+      }
+
+      function createEffect(fn) {
+        const compute = () => {
+          try {
+            _tmp = compute;
+            fn();
+          } finally {
+            _tmp = null;
+          }
+        };
+        return compute();
+      }
+
+      /* =============== Live Age =========================== */
+
+      const [age, setAge] = createSignal(0.0);
+
+      const LiveAge = document.getElementById("live-age");
+
+      createEffect(() => (LiveAge.textContent = age()));
+
+      // Average length of a Gregorian year in milliseconds
+      const MS_PER_YEAR = 365.2425 * 24 * 60 * 60 * 1000;
+
+      // December 10, 2003 at 1:30 PM Rome time (CET, UTC+1)
+      const birthMs = new Date("2003-12-10T13:30:00+01:00").getTime();
+
+      // Get unix timestamp milliseconds for current datetime
+      const baseMs = Date.now();
+
+      const compute = (nowMs) => {
+        const years = (nowMs - birthMs) / MS_PER_YEAR;
+        return years.toLocaleString("en-US", {
+          minimumIntegerDigits: 2,
+          minimumFractionDigits: 9,
+          maximumFractionDigits: 9,
+          useGrouping: false,
+        });
+      };
+
+      const tick = () => {
+        const msSincePageStartedLoading = performance.now();
+        const nowMs = baseMs + msSincePageStartedLoading;
+        setAge(compute(nowMs));
+        requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    </script>
+  </body>
+</html>

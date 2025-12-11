@@ -1,0 +1,176 @@
+
+
+            __ ____  ___  __   ____  ____    ___
+            `M6MMMMb `MM 6MM  6MMMMb `MM(    )M'
+             MM'  `Mb MM69 " 6M'  `Mb `Mb    d'
+             MM    MM MM'    MM    MM  YM.  ,P
+             MM    MM MM     MMMMMMMM   MM  M
+             MM    MM MM     MM         `Mbd'
+             MM.  ,M9 MM     YM    d9    YMP
+             MMYMMM9 _MM_     YMMMM9      M
+             MM
+             MM
+            _MM_
+
+
+    Build your website like it's 1996, deploy on Vercel like it's 2026.
+
+BLUF
+
+  - Vanilla anti-framework that scales down
+  - Compiles in less than 10 seconds on Vercel
+  - Implements static site generation in Python reading data from a SQLite db
+  - Heaviest page size is less than 14kB so it loads in a single TCP round-trip
+
+WELCOME
+
+  This repo contains code and data for my personal website, weblog, and
+  knowledge management system (https://en.wikipedia.org/wiki/Zettelkasten).
+  Visit http://danielfalbo.com to see it in action.
+
+  You can fork and use this as a template for your website.
+  You can deploy this for free on https://vercel.com in a couple of clicks,
+  or it's obviously also ready to be deployed anywhere else.
+
+  In case you are reading this document somewhere else, you can find the
+  official git repository at https://github.com/danielfalbo/prev.
+
+STATIC SITE GENERATION
+
+  Your computer likely already comes with python3 installed.
+
+  Run
+
+    python3 main.py
+
+  and you will be able to
+
+    open dist/index.html
+
+  or any generated html file under 'dist/' with your browser.
+
+DATABASE SCHEMA
+
+  Your computer likely already comes with sqlite3 installed.
+
+  You can see the database schema by running
+
+    sh> sqlite3 knowledge.db
+
+    sqlite> .schema
+
+  or by just reading the 'create.db' script.
+
+TEMPLATES
+
+  Each "templates/<table>.html" file is the template page for entries of the
+  given table. Site generation will create 'dist/<table>/[slug].html' files
+  for each entry of each table that has a template. In the templates html you
+  can use columns names inside brackets as '{placeholders}' for data that will
+  be replaced with the actual value of the given column at generation time.
+
+  All other "templates/<title>.html" where 'title' is not a table name will be
+  rendered as standalone pages at 'dist/<title>.html'.
+
+  The "templates/global.css" content can be imported into any template via the
+  special '{css}' placeholder.
+
+  The '{dateage}' is a special placeholder you can use within the entries 'html'
+  that resolves to a dynamic component formatted like
+
+    'December 15, 2022 (2y ago, 19.01 y.o.)'
+
+  based on the 'created_time' value of the given entry in the database and the
+  'AUTHOR_BIRTHDAY' from 'main.py' as ISO 8601 date string.
+
+  There is a special '{context}' placeholder which will render hrefs to
+  pages from other tables that have a relationship with this entry as specified
+  in the 'RELATIONSHIPS' config object of 'main.py'.
+
+COMPONENTS
+
+  Components are like templates except their path and filename has no semantic
+  meaning, they are just used by name wherever they are needed.
+
+  As of today, the only components available are:
+
+  _ "components/list.html" which is used as layout for generating indices at
+    "dist/<table>.html" for each table in the db, and
+
+  _ "components/dateage.html" which is used as blueprint for generating
+    '{dateage}' blocks as described above.
+
+ESCAPING BRACKETS FOR JS/CSS IN TEMPLATES AND COMPONENTS HTML
+
+  Since {placeholders} replacement is done with Python's str.format, brackets in
+  templates and components required for css/js must be escaped by being doubled.
+
+  So
+
+    function() {
+      console.log({str_injected_by_python});
+    }
+
+  should be written as
+
+    function() {{
+      console.log({str_injected_by_python});
+    }}
+
+  in order for Python not to try to replace the function's body with some value
+  from the format map.
+
+
+ASSETS
+
+  The 'assets/' dir gets copied over 'dist/assets/' as it is.
+
+CREATING/UPDATING/DELETING DATA
+
+  The database is a git-tracked file. The generated website is static and
+  read-only. There is no server listening for requests to operate on the db.
+  All data editing is done offline by running queries onto the 'knowledge.db'
+  SQLite database file.
+
+LIVE PREVIEW
+
+  For ergonomic editing and previewing of the html content, the generation
+  script also comes with a live compilation feature.
+
+  You can start compiling 'dist/<table>/[slug].html' with local '{html}' content
+  by starting the watch server with
+
+    python3 main.py --watch <table> <slug>
+
+  and then launching
+
+    ./edit.sh <table> <slug>
+
+  to load the current html content onto a buffer file and edit it in vi.
+  Saving the file will trigger compilation of 'dist/<table>/[slug].html'
+  so you will be able to preview your changes in the browser. Upon closing
+  vi, the content of the buffer html will be dumped onto the database as
+  html content of the given entry in the given table.
+
+  NOTE: this feature only works on BSD because it relies on the kqueue syscall
+    to listen for file changes.
+
+PRINCIPLES
+
+  > "Simple things should be simple, complex things should be possible."
+    - Alan Kay
+
+TODO, MAYBE
+
+  - Support [[table/slug]] refs in html content
+
+  - Consider https://html3000.dev/
+
+  - Improve design on mobile
+
+  - Introduce a server and dynamic content, implement visitors stats and
+    text message user reach-out form, make sure SQL queries are injection-safe.
+
+  - RSS feed
+
+  - Breadcrumbs for table entry pages
