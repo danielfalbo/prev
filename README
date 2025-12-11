@@ -19,8 +19,8 @@ BLUF
 
   - Vanilla anti-framework that scales down
   - Compiles in less than 10 seconds on Vercel
+  - Pages are so light they load almost instantly
   - Implements static site generation in Python reading data from a SQLite db
-  - Heaviest page size is less than 14kB so it loads in a single TCP round-trip
 
 WELCOME
 
