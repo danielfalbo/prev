@@ -24,9 +24,9 @@ BLUF
 
 WELCOME
 
-  This repo contains code and data for my personal website, weblog, and
-  knowledge management system (https://en.wikipedia.org/wiki/Zettelkasten).
-  Visit http://danielfalbo.com to see it in action.
+  This repo contains code and data for my personal website and knowledge
+  management system (https://wikipedia.org/wiki/Zettelkasten).
+  Visit https://danielfalbo.com to see it in action.
 
   You can fork and use this as a template for your website.
   You can deploy this for free on https://vercel.com in a couple of clicks,
