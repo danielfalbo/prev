@@ -168,6 +168,10 @@ TODO, MAYBE
     it upon pushing to database. This will prevent losing changes when edit.sh
     fails to write to database for some reason.
 
+  - Snippets/quotes table
+
+  - Tags table (see https://old.danielfalbo.com/tags.png)
+
   - Support [[table/slug]] refs in html content
 
   - Consider https://html3000.dev/
