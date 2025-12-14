@@ -1,4 +1,5 @@
-<span class="dateage-component" style="font-size: 0.8rem"></span>
+<span style="font-size: 0.8rem" class="dateage-component"></span>
+
 <script>
   // Inputs injected by Python (single braces for str.format replacement)
   const createdStr = "{created_time}";
@@ -47,5 +48,5 @@
   }};
 
   // Render
-  container.innerText = formatDate(createdStr, birthStr);
+  container.innerText = `written on ${{formatDate(createdStr, birthStr)}}`
 </script>
