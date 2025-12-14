@@ -164,6 +164,10 @@ PRINCIPLES
 
 TODO, MAYBE
 
+  - Make edit.sh override buf.html with db content iff it's empyty, and clean
+    it upon pushing to database. This will prevent losing changes when edit.sh
+    fails to write to database for some reason.
+
   - Support [[table/slug]] refs in html content
 
   - Consider https://html3000.dev/
