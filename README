@@ -15,6 +15,7 @@
 
     Build your website like it's 1996, deploy on Vercel like it's 2026.
 
+
 BLUF
 
   - Vanilla anti-framework that scales down
@@ -36,6 +37,11 @@ WELCOME
 
   In case you are reading this document somewhere else, you can find the
   official git repository at https://github.com/danielfalbo/prev.
+
+PRINCIPLES
+
+  > "Simple things should be simple, complex things should be possible."
+    - Alan Kay
 
 STATIC SITE GENERATION
 
@@ -122,7 +128,6 @@ ESCAPING BRACKETS FOR JS/CSS IN TEMPLATES AND COMPONENTS HTML
   in order for Python not to try to replace the function's body with some value
   from the format map.
 
-
 ASSETS
 
   The 'assets/' dir gets copied over 'dist/assets/' as it is.
@@ -133,6 +138,15 @@ CREATING/UPDATING/DELETING DATA
   read-only. There is no server listening for requests to operate on the db.
   All data editing is done offline by running queries onto the 'knowledge.db'
   SQLite database file.
+
+  Since the database is a binary file, standard 'git diff' is not useful to
+  inspect pending changes. You can see the difference between the 'knowledge.db'
+  in your working directory and the one in 'HEAD' by running
+
+    ./dbdiff.sh
+
+  This script requires 'sqldiff' to output the SQL statements necessary to
+  transform the committed database into the current state.
 
 LIVE PREVIEW
 
@@ -156,11 +170,6 @@ LIVE PREVIEW
 
   NOTE: this feature only works on BSD because it relies on the kqueue syscall
     to listen for file changes.
-
-PRINCIPLES
-
-  > "Simple things should be simple, complex things should be possible."
-    - Alan Kay
 
 TODO, MAYBE
 
