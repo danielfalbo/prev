@@ -31,3 +31,28 @@ a:hover {
 .space-y-8 > :not(:last-child) {
   margin-bottom: 2rem;
 }
+
+@keyframes wave {
+  0%   { transform: rotate( 0.0deg) }
+  10%  { transform: rotate( 0.0deg) }
+  20%  { transform: rotate( 0.0deg) }
+  30%  { transform: rotate( 0.0deg) }
+  40%  { transform: rotate( 0.0deg) }
+  50%  { transform: rotate(14.0deg) }
+  60%  { transform: rotate(-8.0deg) }
+  70%  { transform: rotate(14.0deg) }
+  80%  { transform: rotate(-4.0deg) }
+  90%  { transform: rotate(10.0deg) }
+  100% { transform: rotate( 0.0deg) }
+}
+
+#waving-hand {
+  /* Set the pivot point to the bottom-left corner (the wrist) */
+  transform-origin: 70% 70%;
+
+  /* Ensure the hand is treated as a block for the transform to work well */
+  display: inline-block;
+
+  /* Apply the animation: name | duration | timing | repetition */
+  animation: wave 2.5s ease-in-out 1;
+}
