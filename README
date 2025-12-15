@@ -43,6 +43,9 @@ PRINCIPLES
   > "Simple things should be simple, complex things should be possible."
     - Alan Kay
 
+  > "Make every detail perfect and limit the number of details to perfect."
+    - Jack Dorsey
+
 STATIC SITE GENERATION
 
   Your computer likely already comes with python3 installed.
