@@ -140,13 +140,15 @@ CREATING/UPDATING/DELETING DATA
   SQLite database file.
 
   Since the database is a binary file, standard 'git diff' is not useful to
-  inspect pending changes. You can see the difference between the 'knowledge.db'
-  in your working directory and the one in 'HEAD' by running
+  inspect pending changes. You can tell git to ask 'sqlite3' for a text dump of
+  the database when computing diffs by running
 
-    ./dbdiff.sh
+    git config diff.sqlite3.textconv "sh -c 'sqlite3 \$0 .dump'"
 
-  This script requires 'sqldiff' to output the SQL statements necessary to
-  transform the committed database into the current state.
+  and then 'git diff' will work as usual with '.db' files too.
+
+  Note: we tell git that the filetype for '*.db' files is 'sqlite3' in the
+    '.gitattributes' file.
 
 LIVE PREVIEW
 
@@ -168,7 +170,7 @@ LIVE PREVIEW
   vi, the content of the buffer html will be dumped onto the database as
   html content of the given entry in the given table.
 
-  NOTE: this feature only works on BSD because it relies on the kqueue syscall
+  Note: this feature only works on BSD because it relies on the kqueue syscall
     to listen for file changes.
 
 TODO, MAYBE
