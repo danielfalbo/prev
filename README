@@ -98,6 +98,14 @@ TEMPLATES
   pages from other tables that have a relationship with this entry as specified
   in the 'RELATIONSHIPS' config object of 'main.py'.
 
+RSS FEEDS
+
+  The site generator automatically creates an RSS 2.0 XML feed for every table
+  in the database. These are output to 'dist/<table>/rss'.
+
+  The content within the RSS items includes the raw HTML from the database
+  entry wrapped in CDATA tags.
+
 COMPONENTS
 
   Components are like templates except their path and filename has no semantic
@@ -229,8 +237,6 @@ TODO, MAYBE
 
   - Introduce a server and dynamic content, implement visitors stats and
     text message user reach-out form, make sure SQL queries are injection-safe.
-
-  - RSS feed by tables
 
   - Breadcrumbs for table entry pages
 

@@ -4,6 +4,8 @@ import shutil
 import select
 from pathlib import Path
 from contextlib import closing
+from datetime import datetime, timezone
+from email.utils import format_datetime
 
 # Use pip-installed pysqlite3 as sqlite3 on non-macOS systems
 if sys.platform != 'darwin':
@@ -21,6 +23,8 @@ ASSETS_DIR = Path('assets')
 
 # ISO 8601 date string for December 10, 2003 at 1:30 PM Rome time (CET, UTC+1)
 AUTHOR_BIRTHDAY = "2003-12-10T13:30:00+01:00"
+
+BASE_URL = "https://danielfalbo.com"
 
 USAGE_STR = f'Usage: python3 {sys.argv[0]} [ --watch <table> <slug> ]'
 
@@ -203,6 +207,61 @@ def generate_section(db, css, cmps, table):
                                   content=index_content_html)
     write_file(index_path, index_html)
 
+def generate_rss(db, table):
+    """
+    Generates an RSS 2.0 XML feed for the given table.
+    """
+    # Schema check: authors use 'name', others use 'title'
+    title_col = 'name' if table == 'authors' else 'title'
+
+    # Fetch all entries ordered by creation date (newest first)
+    q = f"SELECT slug, {title_col}, created_time, html FROM {table} ORDER BY created_time DESC"
+    rows = db.execute(q).fetchall()
+
+    items_xml = ""
+    for r in rows:
+        # Vercel with cleanUrls: true serves /table/slug (without .html)
+        link = f"{BASE_URL}/{table}/{r['slug']}"
+
+        # XML Escape the title
+        title = str(r[title_col]).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+        # Convert SQLite date string to RSS 2.0 RFC 822 format.
+        #
+        # SQLite assumes UTC and formats as YYYY-MM-DD HH:MM:SS
+        # but some dates may have been updated manually to be just YYYY-MM-DD.
+        #
+        # Run
+        #   'SELECT created_time FROM notes' or
+        #   'SELECT created_time FROM notes'
+        # to see what does the DB look like in practice.
+        dt = r['created_time'].split(' ')[0]
+        dt = datetime.strptime(dt, "%Y-%m-%d")
+        dt = dt.replace(tzinfo=timezone.utc)
+        dt = format_datetime(dt)
+
+        items_xml += f"""
+    <item>
+      <title>{title}</title>
+      <guid>{link}</guid>
+      <link>{link}</link>
+      <pubDate>{dt}</pubDate>
+      <description>
+        <![CDATA[ {r['html']} ]]>
+      </description>
+    </item>"""
+
+    rss_content = f"""<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>{table} | danielfalbo</title>
+    <link>{BASE_URL}/{table}</link>
+    <description>Latest entries from {table}</description>
+    {items_xml}
+  </channel>
+</rss>"""
+
+    write_file(DIST_DIR / table / "rss", rss_content)
+
 def generate_standalone_page(css, name):
     """
     Generates a standalone HTML page from the template with the given 'name'
@@ -238,8 +297,11 @@ def generate_all(db):
     for path in TMPL_DIR.rglob('*.html'):
         stem = path.stem
 
-        if stem in tables: generate_section(db, css, cmps, stem)
-        else: generate_standalone_page(css, stem)
+        if stem in tables:
+            generate_section(db, css, cmps, stem)
+            generate_rss(db, stem)
+        else:
+            generate_standalone_page(css, stem)
 
 # =========================== Live Watch Mode ==================================
 
