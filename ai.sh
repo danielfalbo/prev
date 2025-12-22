@@ -11,6 +11,8 @@ FILES=(
 
   "edit.sh"
 
+  "ai.sh"
+
   "templates/global.css"
 
   "templates/index.html"
