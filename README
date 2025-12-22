@@ -240,4 +240,5 @@ TODO, MAYBE
 
   - Breadcrumbs for table entry pages
 
-  - Implement random page
+  - Implement random page, show random entries in homepage
+    (1 random music record, 1 random movie, 1 random resource, etc.)
