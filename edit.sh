@@ -67,7 +67,7 @@ fi
 # 'backupcopy=yes' writes the actual original file at every ':w'
 # so '--watch' mode can directly listen for changes on that file
 # for the live preview feature (see README).
-vi -c "set backupcopy=yes" $BUF
+vi -c "set backupcopy=yes" "$BUF"
 
 # ==========================================
 # 4. Save and Cleanup.
