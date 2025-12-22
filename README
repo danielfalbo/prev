@@ -193,10 +193,25 @@ LIVE PREVIEW
   Note: this feature only works on BSD because it relies on the kqueue syscall
     to listen for file changes.
 
+LLMs ASSISTANCE
+
+  To easily share the codebase with an LLM for assistance, you can run
+
+    ./ai.sh
+
+  which concatenates relevant source files and copies them to the clipboard.
+
+  Note: requires 'pbcopy' and works only on macOS.
+
+  Note: included source files are hardcoded in the 'ai.sh' script.
+
+  If you are working strictly on backend logic, you can run
+
+    ./ai.sh --no-html
+
+  which ignores *.html.
+
 TODO, MAYBE
-
-  - Introduce --no-html flag for ai.sh to exclude all $FILES ending in .html
-
   - Snippets/quotes table
 
   - Tags table (see https://old.danielfalbo.com/tags.png)

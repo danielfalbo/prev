@@ -23,6 +23,12 @@ FILES=(
   "vercel.json"
 )
 
+# Check for --no-html flag
+SKIP_HTML=false
+if [[ "$1" == "--no-html" ]]; then
+  SKIP_HTML=true
+fi
+
 TEMP_FILE=$(mktemp)
 trap "rm -f '$TEMP_FILE'" EXIT
 
@@ -32,6 +38,11 @@ trap "rm -f '$TEMP_FILE'" EXIT
   echo ""
 
   for FILE_PATH in "${FILES[@]}"; do
+    # Skip if --no-html and FILE_PATH matches *.html
+    if [[ "$SKIP_HTML" == true ]] && [[ "$FILE_PATH" == *.html ]]; then
+      continue
+    fi
+
     echo "Here's $FILE_PATH:"
     echo ""
     cat "$FILE_PATH"
@@ -43,4 +54,4 @@ trap "rm -f '$TEMP_FILE'" EXIT
 } > "$TEMP_FILE"
 
 cat "$TEMP_FILE" | pbcopy
-echo "Success: Content of ${#FILES[@]} files copied to clipboard."
+echo "Success: Content of files copied to clipboard."
