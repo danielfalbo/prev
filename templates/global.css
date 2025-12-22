@@ -56,3 +56,18 @@ a:hover {
   /* Apply the animation: name | duration | timing | repetition */
   animation: wave 2.5s ease-in-out 1;
 }
+
+.section-title {
+  padding-top: 2rem;
+  font-weight: bold;
+}
+
+.section-content {
+  opacity: 0.8;
+  font-size: 0.8rem
+}
+
+.demo-media {
+  padding-left: 2rem;
+  width: 300px;
+}
