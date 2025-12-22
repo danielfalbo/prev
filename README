@@ -100,8 +100,8 @@ TEMPLATES
 
 RSS FEEDS
 
-  The site generator automatically creates an RSS 2.0 XML feed for every table
-  in the database. These are output to 'dist/<table>/rss'.
+  The site generator automatically creates an RSS 2.0 XML feed for tables
+  defined at 'RSS_TABLES' in 'main.py'. These are output to 'dist/<table>/rss'.
 
   The content within the RSS items includes the raw HTML from the database
   entry wrapped in CDATA tags.

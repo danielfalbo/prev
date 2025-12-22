@@ -30,6 +30,10 @@ USAGE_STR = f'Usage: python3 {sys.argv[0]} [ --watch <table> <slug> ]'
 
 KB14_URL = 'https://endtimes.dev/why-your-website-should-be-under-14kb-in-size'
 
+# Tables for which we also generate RSS.
+# Must have fields 'title', 'created_time', 'html'.
+RSS_TABLES = {'notes', 'resources'}
+
 # ==================== Relationships Context Configuration =====================
 
 #
@@ -88,6 +92,13 @@ def get_db_tables(db):
         WHERE type='table' AND name NOT LIKE 'sqlite_%'
         """
     return {row[0] for row in db.execute(q)}
+
+def xml_escape(s):
+    s = str(s)
+    s = s.replace("&", "&amp;")
+    s = s.replace("<", "&lt;")
+    s = s.replace(">", "&gt;")
+    return s
 
 # =========================== Site Generation ==================================
 
@@ -211,8 +222,7 @@ def generate_rss(db, table):
     """
     Generates the RSS 2.0 XML feed for the given table at 'dist/<table>/rss'.
     """
-    # Schema check: authors use 'name', others use 'title'
-    title_col = 'name' if table == 'authors' else 'title'
+    title_col = 'title'
 
     # Fetch all entries ordered by creation date (newest first)
     q = f"SELECT slug, {title_col}, created_time, html FROM {table} ORDER BY created_time DESC"
@@ -220,11 +230,10 @@ def generate_rss(db, table):
 
     items_xml = ""
     for r in rows:
-        # Vercel with cleanUrls: true serves /table/slug (without .html)
         link = f"{BASE_URL}/{table}/{r['slug']}"
 
         # XML Escape the title
-        title = str(r[title_col]).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        title = xml_escape(r[title_col])
 
         # Convert SQLite date string to RSS 2.0 RFC 822 format.
         #
@@ -297,11 +306,12 @@ def generate_all(db):
     for path in TMPL_DIR.rglob('*.html'):
         stem = path.stem
 
-        if stem in tables:
-            generate_section(db, css, cmps, stem)
-            generate_rss(db, stem)
-        else:
-            generate_standalone_page(css, stem)
+        if stem in tables: generate_section(db, css, cmps, stem)
+        else: generate_standalone_page(css, stem)
+
+    # Generate RSS feeds for RSS_TABLES.
+    for table in RSS_TABLES:
+        generate_rss(db, table)
 
 # =========================== Live Watch Mode ==================================
 
