@@ -10,7 +10,7 @@ fi
 TABLE="$1"
 SLUG="$2"
 DB="knowledge.db"
-BUF='buf.html'
+BUF="buf_${TABLE}_${SLUG}.html"
 
 # ==========================================
 # 1. Create Entry on DB if Missing.

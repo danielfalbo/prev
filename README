@@ -150,11 +150,11 @@ CREATING/UPDATING/DELETING DATA
   metadata (Title or Name) and create the record for you. It will then open
   the HTML content in vi and dump it back to database on exit.
 
-  The edit.sh script creates a local 'buf.html' file while you work.
-  1. If 'buf.html' is not empty when you start (e.g., after a crash), the
+  The edit.sh script creates a local temp 'buf_<table>_<slug>.html' file.
+  1. If the buffer file is not empty when you start (e.g., after a crash), the
      script will ask if you want to resume editing that file to prevent data
      loss, or overwrite it with DB content.
-  2. The 'buf.html' file is only cleared/emptied after the content is
+  2. The buffer file file is only cleared/emptied after the content is
      successfully committed to the database.
 
 DB DIFF

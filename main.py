@@ -14,7 +14,6 @@ import sqlite3
 # ========================= Meta Configuration =================================
 
 DB_FILE = 'knowledge.db'
-BUF_FILE = 'buf.html'
 DIST_DIR = Path('dist')
 TMPL_DIR = Path('templates')
 CMPS_DIR = Path('components')
@@ -245,6 +244,7 @@ def generate_all(db):
 # =========================== Live Watch Mode ==================================
 
 def watch_buffer(table, slug):
+    buf_file = f'buf_{table}_{slug}.html'
 
     # Get entry title from database given 'table' and 'slug'.
     with closing(sqlite3.connect(DB_FILE)) as db:
@@ -256,9 +256,9 @@ def watch_buffer(table, slug):
     if not row:
         die_with_honor(f"Slug '{slug}' not found in table '{table}'")
 
-    print(f"Watching {BUF_FILE} as html content of {table}/{slug}...")
+    print(f"Watching {buf_file} as html content of {table}/{slug}...")
 
-    fd = os.open(BUF_FILE, os.O_RDONLY | os.O_CREAT, 0o644)
+    fd = os.open(buf_file, os.O_RDONLY | os.O_CREAT, 0o644)
     kq = select.kqueue()
     kevent = select.kevent(fd, filter=select.KQ_FILTER_VNODE,
                            flags=select.KQ_EV_ADD | select.KQ_EV_CLEAR,
