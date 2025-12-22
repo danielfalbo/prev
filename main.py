@@ -209,7 +209,7 @@ def generate_section(db, css, cmps, table):
 
 def generate_rss(db, table):
     """
-    Generates an RSS 2.0 XML feed for the given table.
+    Generates the RSS 2.0 XML feed for the given table at 'dist/<table>/rss'.
     """
     # Schema check: authors use 'name', others use 'title'
     title_col = 'name' if table == 'authors' else 'title'
