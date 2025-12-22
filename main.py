@@ -209,7 +209,7 @@ def generate_section(db, css, cmps, table):
 
         # Append page href row to table index html accumulator
         index_content_html += (f'''<p>
-            <a href="./{table}/{slug}.html">/{table}/{slug}</a>
+            <a href="./{table}/{slug}.html">{slug}</a>
         </p>''')
 
     # Generate table index
