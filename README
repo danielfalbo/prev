@@ -212,6 +212,7 @@ LLMs ASSISTANCE
   which ignores *.html.
 
 TODO, MAYBE
+
   - Snippets/quotes table
 
   - Tags table (see https://old.danielfalbo.com/tags.png)
@@ -229,7 +230,7 @@ TODO, MAYBE
   - Introduce a server and dynamic content, implement visitors stats and
     text message user reach-out form, make sure SQL queries are injection-safe.
 
-  - RSS feed
+  - RSS feed by tables
 
   - Breadcrumbs for table entry pages
 
