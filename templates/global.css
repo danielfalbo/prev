@@ -24,10 +24,6 @@ a:hover {
   text-decoration: none;
 }
 
-.navbar-links {
-  padding-bottom: 24px;
-}
-
 @keyframes wave {
   0%   { transform: rotate( 0.0deg) }
   10%  { transform: rotate( 0.0deg) }
