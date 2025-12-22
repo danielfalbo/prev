@@ -142,6 +142,23 @@ CREATING/UPDATING/DELETING DATA
   All data editing is done offline by running queries onto the 'knowledge.db'
   SQLite database file.
 
+  To create or edit a page you can use the ergonomic helper script:
+
+    ./edit.sh <table> <slug>
+
+  which, if the entry does not exist, will prompt you for the necessary
+  metadata (Title or Name) and create the record for you. It will then open
+  the HTML content in vi and dump it back to database on exit.
+
+  The edit.sh script creates a local 'buf.html' file while you work.
+  1. If 'buf.html' is not empty when you start (e.g., after a crash), the
+     script will ask if you want to resume editing that file to prevent data
+     loss, or overwrite it with DB content.
+  2. The 'buf.html' file is only cleared/emptied after the content is
+     successfully committed to the database.
+
+DB DIFF
+
   Since the database is a binary file, standard 'git diff' is not useful to
   inspect pending changes. You can tell git to ask 'sqlite3' for a text dump of
   the database when computing diffs by running
@@ -177,10 +194,6 @@ LIVE PREVIEW
     to listen for file changes.
 
 TODO, MAYBE
-
-  - Make edit.sh override buf.html with db content iff it's empyty, and clean
-    it upon pushing to database. This will prevent losing changes when edit.sh
-    fails to write to database for some reason.
 
   - Snippets/quotes table
 
