@@ -46,6 +46,9 @@ PRINCIPLES
   > "Make every detail perfect and limit the number of details to perfect."
     - Jack Dorsey
 
+  > "Good design is as little design as possible."
+    - Dieter Rams
+
 STATIC SITE GENERATION
 
   Your computer likely already comes with python3 installed.
