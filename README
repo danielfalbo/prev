@@ -220,9 +220,10 @@ LLMs ASSISTANCE
   which ignores *.html.
 
 TODO, MAYBE
-  - Move all html templates/components to semantic python code.
-    'str.format' should never be used, we should just call functions
-    instead.
+
+  - Turn all html templates/components into python code.
+    See https://github.com/danielfalbo/old.danielfalbo.com/blob/main/public/solid-danielfalbo.html#L32.
+    'str.format' should never be used, we should just call functions instead.
 
   - Drop 'authors.html' column: when we start having content,
     things start to belong to 'resources', such as 'Biography of x'.
