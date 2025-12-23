@@ -224,6 +224,8 @@ TODO, MAYBE
   - Drop 'authors.html' column: when we start having content,
     things start to belong to 'resources', such as 'Biography of x'.
 
+  - 'notes' should be 'weblog'. should it?
+
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
       1. New table 'media' with prop 'type' among 'book', 'music record', etc.
         Snippets/quotes are just a media type.
