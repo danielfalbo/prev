@@ -220,9 +220,6 @@ LLMs ASSISTANCE
   which ignores *.html.
 
 TODO, MAYBE
-
-  - Drop 'RELATIONSHIPS' in favour of native SQLite views.
-
   - Move all html templates/components to semantic python code.
     'str.format' should never be used, we should just call functions
     instead.
@@ -256,3 +253,4 @@ TODO, MAYBE
 
   - 'notes' are just 'resources' whose 'author' is me
 
+  - Drop 'RELATIONSHIPS' in favour of native SQLite views.
