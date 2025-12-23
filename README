@@ -221,6 +221,9 @@ LLMs ASSISTANCE
 
 TODO, MAYBE
 
+  - Drop 'authors.html' column: when we start having content,
+    things start to belong to 'resources', such as 'Biography of x'.
+
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
       1. New table 'media' with prop 'type' among 'book', 'music record', etc.
         Snippets/quotes are just a media type.
@@ -242,3 +245,5 @@ TODO, MAYBE
   - Breadcrumbs for table entry pages
 
   - Improve design on mobile
+
+  - 'notes' are just 'resources' whose 'author' is me
