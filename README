@@ -221,6 +221,12 @@ LLMs ASSISTANCE
 
 TODO, MAYBE
 
+  - Drop 'RELATIONSHIPS' in favour of native SQLite views.
+
+  - Move all html templates/components to semantic python code.
+    'str.format' should never be used, we should just call functions
+    instead.
+
   - Drop 'authors.html' column: when we start having content,
     things start to belong to 'resources', such as 'Biography of x'.
 
@@ -249,3 +255,4 @@ TODO, MAYBE
   - Improve design on mobile
 
   - 'notes' are just 'resources' whose 'author' is me
+
