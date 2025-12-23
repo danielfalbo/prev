@@ -247,6 +247,8 @@ TODO, MAYBE
 
   - Introduce a server and dynamic content, implement visitors stats and
     text message user reach-out form, make sure SQL queries are injection-safe.
+    Minimize JSON parsing overhead: return HTML from the server when possible.
+    Handle post submission without reload: listen for 'submit' event.
 
   - Breadcrumbs for table entry pages
 
@@ -255,3 +257,6 @@ TODO, MAYBE
   - 'notes' are just 'resources' whose 'author' is me
 
   - Drop 'RELATIONSHIPS' in favour of native SQLite views.
+
+  - Intercept clicks on <a>s, preload page on hover and just swap html content
+    on click.
