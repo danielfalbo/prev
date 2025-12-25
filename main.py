@@ -207,10 +207,12 @@ def generate_section(db, css, cmps, table):
         path = DIST_DIR / table / f"{slug}.html"
         write_file(path, html)
 
-        # Append page href row to table index html accumulator
-        index_content_html += (f'''<p>
-            <a href="./{table}/{slug}.html">{slug}</a>
-        </p>''')
+        # Append page href row to table index html accumulator,
+        # unless marked as unlisted on db.
+        if row.get('listed', 1):
+            index_content_html += (f'''<p>
+                <a href="./{table}/{slug}.html">{slug}</a>
+            </p>''')
 
     # Generate table index
     index_path = DIST_DIR / f"{table}.html"

@@ -18,6 +18,7 @@ CREATE TABLE notes (
     slug TEXT UNIQUE NOT NULL,
     title TEXT NOT NULL,
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    listed INTEGER DEFAULT 1 NOT NULL,
     html TEXT
 );
 
