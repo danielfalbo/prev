@@ -224,7 +224,7 @@ LLMs ASSISTANCE
 
 TODO, MAYBE
 
-  - Turn all html templates/components into python code.
+  - Turn all html templates and components into python code.
     See https://github.com/danielfalbo/old.danielfalbo.com/blob/main/public/solid-danielfalbo.html#L32.
     'str.format' should never be used, we should just call functions instead.
 
