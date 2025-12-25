@@ -19,20 +19,27 @@ BUF="buf_${TABLE}_${SLUG}.html"
 # Check if entry already exists.
 EXISTS=$(sqlite3 $DB "SELECT count(*) FROM \"$TABLE\" WHERE slug='$SLUG';")
 
+if [ "$TABLE" == "authors" ] && [ "$EXISTS" -ne "0" ]; then
+  # If it's an author and already exists, there's nothing to do.
+  exit 0
+fi
+
 if [ "$EXISTS" -eq "0" ]; then
   echo "Entry '$SLUG' not found in '$TABLE'. Creating new..."
 
   # Handle Schema differences: 'authors' table uses 'name', others use 'title'.
   if [ "$TABLE" == "authors" ]; then
     read -p "Enter Name: " DISPLAY_VAL
-    COL="name"
+
+    # Insert author onto db.
+    sqlite3 $DB "INSERT INTO \"$TABLE\" (slug, name) VALUES ('$SLUG', '$DISPLAY_VAL');"
+
+    exit 0 # There is nothing to edit in vim for authors.
   else
     read -p "Enter Title: " DISPLAY_VAL
-    COL="title"
+    # Insert the new row with empty HTML.
+    sqlite3 $DB "INSERT INTO \"$TABLE\" (slug, title, html) VALUES ('$SLUG', '$DISPLAY_VAL', '');"
   fi
-
-  # Insert the new row with empty HTML.
-  sqlite3 $DB "INSERT INTO \"$TABLE\" (slug, $COL, html) VALUES ('$SLUG', '$DISPLAY_VAL', '');"
 fi
 
 # ==========================================

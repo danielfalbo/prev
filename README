@@ -228,9 +228,6 @@ TODO, MAYBE
     See https://github.com/danielfalbo/old.danielfalbo.com/blob/main/public/solid-danielfalbo.html#L32.
     'str.format' should never be used, we should just call functions instead.
 
-  - Drop 'authors.html' column: when we start having content,
-    things start to belong to 'resources', such as 'Biography of x'.
-
   - 'notes' should be 'weblog'. should it?
 
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
@@ -246,7 +243,9 @@ TODO, MAYBE
 
   - Support [[table/slug]] refs in html content
 
-  - Consider https://html3000.dev, https://news.ycombinator.com/item?id=44937991, http://bettermotherfuckingwebsite.com
+  - Consider https://html3000.dev,
+    https://news.ycombinator.com/item?id=44937991,
+    http://bettermotherfuckingwebsite.com
 
   - Introduce a server and dynamic content, implement visitors stats and
     text message user reach-out form, make sure SQL queries are injection-safe.

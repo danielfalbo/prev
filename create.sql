@@ -3,7 +3,6 @@ CREATE TABLE authors (
     slug TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
     created_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    html TEXT
 );
 
 CREATE TABLE resources (
