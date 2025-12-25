@@ -245,7 +245,8 @@ TODO, MAYBE
 
   - Consider https://html3000.dev,
     https://news.ycombinator.com/item?id=44937991,
-    http://bettermotherfuckingwebsite.com
+    http://bettermotherfuckingwebsite.com,
+    https://danburzo.ro/add-a-web-feed/
 
   - Introduce a server and dynamic content, implement visitors stats and
     text message user reach-out form, make sure SQL queries are injection-safe.
