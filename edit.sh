@@ -52,9 +52,11 @@ if [ -s "$BUF" ]; then
   echo "WARNING: '$BUF' is not empty!"
   echo "This might contain unsaved work from a previous session."
   echo "----------------------------------------------------"
-  read -p "Load from local buffer instead of DB? [y/N]: " CHOICE
+  read -p "Load from local buffer instead of DB? [Y/n]: " CHOICE
 
-  if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
+  # If choice is empty (default) or matches Y/y, load unsaved work;
+  # else, load the html content from DB.
+  if [[ -z "$CHOICE" || "$CHOICE" =~ ^[Yy]$ ]]; then
     echo "Using local '$BUF' content..."
   else
     echo "Overwriting '$BUF' with fresh content from DB..."
