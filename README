@@ -17,17 +17,17 @@
 
 BLUF
 
-  - Vanilla anti-framework that scales down
-  - Compiles in less than 10 seconds on Vercel
-  - Pages are so light they load almost instantly
-  - Implements static site generation in Python reading data from a SQLite db
+  - Personal website, blog, and bookmarks.
+  - Vanilla anti-framework that scales down.
+  - Compiles in less than 10 seconds on Vercel.
+  - Pages are so light they load almost instantly.
+  - Implements static site generation in Python reading data from a SQLite db.
 
   hn: https://news.ycombinator.com/item?id=46229756
 
 WELCOME
 
-  This repo contains code and data for my personal website and knowledge
-  management system (https://wikipedia.org/wiki/Zettelkasten).
+  This repo contains code and data for my personal website, blog, and bookmarks.
   Visit https://danielfalbo.com to see it in action.
 
   You can fork and use this as a template for your website.
@@ -185,13 +185,14 @@ LLMs ASSISTANCE
 TODO, MAYBE
 
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
-      1. New table 'media' with prop 'type' among 'book', 'music record',
-        'movie', 'talk'/'video', 'textbook', 'article'/'post',
-        'snippets'/'quotes'.
+      1. New table 'media' with prop 'type' among 'book' (includes fiction,
+      non-fiction, textbooks), 'post' (includes talks, articles, papers,
+      whitepapers) 'snippets' (includes 'quotes' but also code).
       2. Current 'bookmarks' ARE tags, and everything else is just an entry
         in relation to this bookmark.
-      3. Pages '/jukebox', '/cinema', etc are just media grouped by type with
-        type-specific style.
+
+    Also consider this:
+      1. 'bookmarks' get 'type' string field and 'tags' string field.
 
   - Introduce a server and dynamic content to implement visitors stats and text
     message user reach-out form, make sure client-facing SQL queries are
