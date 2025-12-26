@@ -17,7 +17,6 @@ import sqlite3
 
 DB_FILE = 'knowledge.db'
 DIST_DIR = Path('dist')
-TMPL_DIR = Path('templates')
 CMPS_DIR = Path('components')
 ASSETS_DIR = Path('assets')
 
@@ -234,13 +233,38 @@ def index(css):
         h('style', {}, WAVING_HAND_CSS)
     ]))
 
-# ======================= Loading conntent from files ==========================
+def title_component(title_str):
+    return h('p', {'style': """font-size: 3rem; font-weight: 700; margin: 0px;
+                                word-break: break-word"""}, title_str)
 
-def load_tmpl(name):
-    """
-    Returns the content of the html file with given 'name' from the TMPL_DIR.
-    """
-    return (TMPL_DIR / f'{name}.html').read_text()
+def author_page(css, entry):
+    return layout(entry['name'], css, "".join([
+        NAVBAR,
+        title_component(entry['name'])
+    ]))
+
+def entry_page(css, entry):
+    return layout(entry['title'], css, "".join([
+        NAVBAR,
+        title_component(entry['title']),
+        entry['context'],
+        h('hr'),
+        entry['html']
+    ]))
+
+TABLE_TO_BUILDER = {
+    'authors': author_page,
+    'notes': entry_page,
+    'resources': entry_page,
+}
+
+NOT_FOUND_PAGE = """
+<style>html { color-scheme: light dark; }</style>
+<pre>404</pre>
+<pre>go <a href='/'>home</></pre>
+"""
+
+# ======================= Loading conntent from files ==========================
 
 def load_cmps():
     """
@@ -315,24 +339,18 @@ def gen_tmpl_values(db, table, cmps):
 
     return tmpl_values_by_slug
 
-def generate_section(db, css, cmps, table):
+def generate_section(db, css, cmps, table, builder):
     """
-    Generate html pages for index and all entries of given 'table' within 'db'
-    and writes them to DIST_DIR/<table>.html and DIST_DIR/<table>/[slug].html.
+    Generate html page for 'table' index at 'DIST_DIR/<table>.html' and page for
+    all entries of given 'table' within 'db' at 'DIST_DIR/<table>/[slug].html'.
     """
-
-    tmpl = load_tmpl(table)
-
     values = gen_tmpl_values(db, table, cmps)
-
     list_cmpn = cmps['list']
-
     index_content_html = ''
-
 
     for slug, row in values.items():
         # Generate entry page
-        html = tmpl.format(css=css, **row)
+        html = builder(css, values[slug])
         path = DIST_DIR / table / f"{slug}.html"
         write_file(path, html)
 
@@ -401,18 +419,6 @@ def generate_rss(db, table):
 
     write_file(DIST_DIR / table / "rss", rss_content)
 
-def generate_standalone_page(css, name):
-    """
-    Generates a standalone HTML page from the template with the given 'name'
-    and writes it to DIST_DIR/[name].html.
-    """
-    template = load_tmpl(name)
-
-    html = template.replace('{css}', css)
-
-    path = DIST_DIR / f'{name}.html'
-    write_file(path, html)
-
 def generate_all(db):
     # Clean output dir
     if DIST_DIR.exists():
@@ -433,15 +439,16 @@ def generate_all(db):
     INDEX_PATH = DIST_DIR / f'index.html'
     write_file(INDEX_PATH, index(css))
 
-    # For each available template, find its database table and generate
-    # a section with one html page per entry, replacing any placeholder value
-    # from the template with its value on the given entry row.
-    # If template name is not a table name, generate the page as standalone.
-    for path in TMPL_DIR.rglob('*.html'):
-        stem = path.stem
+    # Write 404.html page
+    INDEX_PATH = DIST_DIR / f'404.html'
+    write_file(INDEX_PATH, NOT_FOUND_PAGE)
 
-        if stem in tables: generate_section(db, css, cmps, stem)
-        else: generate_standalone_page(css, stem)
+    # For each available table entry page builder, find its database table and
+    # generate a section with one html page per entry, replacing any placeholder
+    # value from the template with its value on the given entry row.
+    for table, builder in TABLE_TO_BUILDER.items():
+        assert table in tables
+        generate_section(db, css, cmps, table, builder)
 
     # Generate RSS feeds for RSS_TABLES.
     for table in RSS_TABLES:
@@ -473,7 +480,7 @@ def watch_buffer(table, slug):
     # Register filter, wait for 0 events just yet
     kq.control([kevent], 0)
 
-    template = (TMPL_DIR / f'{table}.html').read_text()
+    builder = TABLE_TO_BUILDER[table]
     css = GLOBAL_CSS
 
     try:
@@ -489,8 +496,7 @@ def watch_buffer(table, slug):
             html = os.read(fd, size).decode('utf-8')
 
             # Generate just this file
-            row = {**row, 'html': html}
-            content = template.format(css=css, **row, context='')
+            content = builder(css, {**row, 'html': html, 'context': ''})
 
             out_path = DIST_DIR / table / f'{slug}.html'
             write_file(out_path, content)

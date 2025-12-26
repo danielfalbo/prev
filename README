@@ -237,6 +237,8 @@ TODO, MAYBE
     See https://github.com/danielfalbo/old.danielfalbo.com/blob/main/public/solid-danielfalbo.html#L32.
     'str.format' should never be used, we should just call functions instead.
 
+      - [ ] Fix --watch
+
   - 'notes' should be 'weblog'. should it?
 
   - Show 'titles'/'names' at indices, not slugs.

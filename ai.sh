@@ -2,25 +2,13 @@
 
 FILES=(
   "README"
-
   "main.py"
   "create.sql"
-
   "components/list.html"
   "components/dateage.html"
-
   "edit.sh"
-
   "ai.sh"
-
-  "templates/global.css"
-
   "templates/404.html"
-  "templates/index.html"
-  "templates/notes.html"
-  "templates/authors.html"
-  "templates/resources.html"
-
   "vercel.json"
 )
 
