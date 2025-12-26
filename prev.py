@@ -17,7 +17,6 @@ import sqlite3
 
 DB_FILE = 'knowledge.db'
 DIST_DIR = Path('dist')
-ASSETS_DIR = Path('assets')
 
 # ISO 8601 date string for December 10, 2003 at 1:30 PM Rome time (CET, UTC+1)
 AUTHOR_BIRTHDAY = "2003-12-10T13:30:00+01:00"
@@ -199,7 +198,7 @@ def layout(title, css, body_content_list):
             h('style', {}, css),
             h('meta', {'charset': 'UTF-8'}),
             h('link', {'rel': 'icon', 'type': 'image/x-icon',
-                        'href': '/assets/favicon.ico'})
+                        'href': '/favicon.ico'})
         ),
 
         h('body', {}, "".join(body_content_list))
@@ -469,9 +468,9 @@ def generate_all(db):
         shutil.rmtree(DIST_DIR)
     DIST_DIR.mkdir()
 
-    # Copy assets
-    shutil.copytree(ASSETS_DIR, DIST_DIR / 'assets', dirs_exist_ok=True)
-    print(f"[OK] Copied assets to {DIST_DIR / 'assets'}")
+    # Copy favicon
+    shutil.copy("favicon.ico", DIST_DIR / 'favicon.ico')
+    print(f"[OK] Copied favicon.ico to {DIST_DIR / 'favicon.ico'}")
 
     css = GLOBAL_CSS
 

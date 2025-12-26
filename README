@@ -112,10 +112,6 @@ RSS FEEDS
   The content within the RSS items includes the raw HTML from the database
   entry wrapped in CDATA tags.
 
-ASSETS
-
-  The 'assets/' dir gets copied over 'dist/assets/' as it is.
-
 CREATING/UPDATING/DELETING DATA
 
   The database is a git-tracked file. The generated website is static and
