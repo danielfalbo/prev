@@ -199,10 +199,11 @@ TODO, MAYBE
       3. Pages '/jukebox', '/cinema', etc are just media grouped by type with
         type-specific style.
 
-  - Introduce a server and dynamic content, implement visitors stats and
-    text message user reach-out form, make sure SQL queries are injection-safe.
-    Minimize JSON parsing overhead: return HTML from the server when possible.
-    Handle post submission without reload: listen for 'submit' event.
+  - Introduce a server and dynamic content to implement visitors stats and text
+    message user reach-out form, make sure client-facing SQL queries are
+    injection-safe, if any. Minimize JSON parsing overhead: consider returing
+    HTML from the server. Handle post submission without reload: listen for
+    'submit' event.
 
   - Implement random page, show random entries in homepage
     (1 random music record, 1 random movie, 1 random bookmark, etc.)
@@ -216,4 +217,6 @@ TODO, MAYBE
 
   - Drop 'RELATIONSHIPS' in favour of native SQLite views.
 
-  - Improve overall accessibility
+  - Improve overall accessibility: it should be as accessible and bulletproof
+    as critical services websites should.
+    https://news.ycombinator.com/item?id=26691156
