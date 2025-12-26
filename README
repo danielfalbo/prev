@@ -107,6 +107,10 @@ CREATING/UPDATING/DELETING DATA
   All data editing is done offline by running queries onto the 'knowledge.db'
   SQLite database file.
 
+  Note: git-tracking the database will break if you'll make changes to the DB
+    on multiple branches and then merge them. Changes to the DB are expected
+    to always be made on a single branch and no db merges are ever expected.
+
   To create or edit a page you can use the ergonomic helper script:
 
     ./edit.sh <table> <slug>
