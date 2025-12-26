@@ -21,7 +21,7 @@ BLUF
   - Vanilla anti-framework that scales down.
   - Compiles in less than 10 seconds on Vercel.
   - Pages are so light they load almost instantly.
-  - Implements static site generation in Python reading data from a SQLite db.
+  - Implements SSG in Python reading data from a SQLite.
 
   hn: https://news.ycombinator.com/item?id=46229756
 
