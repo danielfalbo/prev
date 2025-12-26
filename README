@@ -190,9 +190,6 @@ LLMs ASSISTANCE
 
 TODO, MAYBE
 
-  - 'notes' should be 'weblog'. should it?
-  - or should 'notes' just be 'resources' whose 'author' is me?
-
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
       1. New table 'media' with prop 'type' among 'book', 'music record', etc.
         Snippets/quotes are just a media type.

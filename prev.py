@@ -133,7 +133,7 @@ a:hover { text-decoration: none; }
 
 DOT = h('span', {}, ' · ')
 NAVBAR = h('p', {},
-    h('a', {'href': '/index.html'}, 'home'),
+    h('a', {'href': '/index.html'}, 'root'),
     DOT, h('a', {'href': '/notes/code.html'}, 'code'),
     DOT, h('a', {'href': '/notes/words.html'}, 'words'),
     DOT, h('a', {'href': '/notes.html'}, 'weblog'),
