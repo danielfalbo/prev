@@ -135,7 +135,9 @@ DOT = h('span', {}, ' · ')
 NAVBAR = h('p', {},
     h('a', {'href': '/index.html'}, 'home'),
     DOT, h('a', {'href': '/notes/code.html'}, 'code'),
-    DOT, h('a', {'href': '/notes/words.html'}, 'words')
+    DOT, h('a', {'href': '/notes/words.html'}, 'words'),
+    DOT, h('a', {'href': '/notes.html'}, 'weblog'),
+    DOT, h('a', {'href': '/notes/rss'}, 'rss'),
 )
 
 WAVING_HAND_CSS = """
