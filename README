@@ -67,11 +67,9 @@ DATABASE SCHEMA
 
   You can see the database schema by running
 
-    sh> sqlite3 knowledge.db
+    sqlite3 knowledge.db '.schema'
 
-    sqlite> .schema
-
-  or by just reading the 'create.db' script.
+  which you can also save to a file and use as "create.sql" script.
 
 HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
 

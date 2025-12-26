@@ -1,42 +1,20 @@
 #!/bin/bash
 
-FILES=(
-  "README"
-  "prev.py"
-  "create.sql"
-  "edit.sh"
-  "ai.sh"
-  "vercel.json"
-)
-
-# Check for --no-html flag
-SKIP_HTML=false
-if [[ "$1" == "--no-html" ]]; then
-  SKIP_HTML=true
-fi
+FILES=("README" "prev.py" "edit.sh" "ai.sh" "vercel.json")
 
 TEMP_FILE=$(mktemp)
 trap "rm -f '$TEMP_FILE'" EXIT
 
 {
-  echo "I am currently working on my personal website."
-  echo "It's a custom-made vanilla SSG using Python and SQLite."
-  echo ""
-
   for FILE_PATH in "${FILES[@]}"; do
-    # Skip if --no-html and FILE_PATH matches *.html
-    if [[ "$SKIP_HTML" == true ]] && [[ "$FILE_PATH" == *.html ]]; then
-      continue
-    fi
-
-    echo "Here's $FILE_PATH:"
-    echo ""
+    echo "$FILE_PATH:"
     cat "$FILE_PATH"
     echo -e "\n--- End of $FILE_PATH ---\n"
-    echo ""
   done
 
-  echo -e "\n--- End of Files ---\n"
+  echo "Database schema:"
+  sqlite3 knowledge.db '.schema'
+  echo -e "\n--- End of DB schema ---\n"
 } > "$TEMP_FILE"
 
 cat "$TEMP_FILE" | pbcopy
