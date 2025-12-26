@@ -102,7 +102,7 @@ def xml_escape(s):
 # =========================== HTML as Python Funciton ==========================
 
 # Usage: h('p', {'id': 'hello'}, 'Hello', h('span', {}, 'World'))
-def h(tag, props={}, *children):
+def h(tag, props, *children):
     attr_str = " ".join([f'{key}="{value}"' for key, value in props.items()])
     inner_html = "".join(children)
     return f"<{tag} {attr_str}>{inner_html}</{tag}>"
@@ -255,7 +255,7 @@ def entry_page(css, entry):
         NAVBAR,
         title_component(entry['title']),
         entry['context'],
-        h('hr'),
+        '<hr/>',
         entry['html']
     ]))
 
