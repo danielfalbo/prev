@@ -9,12 +9,12 @@ trap "rm -f '$TEMP_FILE'" EXIT
   for FILE_PATH in "${FILES[@]}"; do
     echo "$FILE_PATH:"
     cat "$FILE_PATH"
-    echo -e "\n--- End of $FILE_PATH ---\n"
+    echo "--- End of $FILE_PATH ---"
   done
 
   echo "Database schema:"
   sqlite3 knowledge.db '.schema'
-  echo -e "\n--- End of DB schema ---\n"
+  echo "--- End of DB schema ---"
 } > "$TEMP_FILE"
 
 cat "$TEMP_FILE" | pbcopy
