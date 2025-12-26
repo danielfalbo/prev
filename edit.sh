@@ -86,7 +86,7 @@ sqlite3 $DB "UPDATE \"$TABLE\" SET html=CAST(readfile('$BUF') as TEXT) WHERE slu
 
 # If we reached this line, the DB update was successful.
 # Clean the buffer so the next run pulls fresh from DB.
-> "$BUF"
+rm "$BUF"
 
 echo "Database updated and buffer cleaned."
 
