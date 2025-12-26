@@ -215,3 +215,5 @@ TODO, MAYBE
     https://danburzo.ro/add-a-web-feed/
 
   - Drop 'RELATIONSHIPS' in favour of native SQLite views.
+
+  - Improve overall accessibility
