@@ -96,8 +96,3 @@ echo "Database updated and buffer cleaned."
 
 # Rebuild site
 python3 prev.py
-
-# Open edited page in browser (using macOS 'open')
-if [[ "$(uname -s)" == "Darwin" ]]; then
-  open "dist/$TABLE/$SLUG.html"
-fi
