@@ -196,9 +196,8 @@ def layout(title, css, body_content_list):
         h('head', {},
             h('title', {}, f'{title} | danielfalbo'),
             h('style', {}, css),
-            h('meta', {'charset': 'UTF-8'}),
-            h('link', {'rel': 'icon', 'type': 'image/x-icon',
-                        'href': '/favicon.ico'})
+            '<meta charset="UTF-8">',
+            '<link rel="icon" type="image/x-icon" href="/favicon.ico">',
         ),
 
         h('body', {}, "".join(body_content_list))
