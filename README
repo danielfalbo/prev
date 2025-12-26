@@ -168,12 +168,6 @@ LLMs ASSISTANCE
 
   Note: included source files are hardcoded in the 'ai.sh' script.
 
-  If you are working strictly on backend logic, you can run
-
-    ./ai.sh --no-html
-
-  which ignores *.html.
-
 PRINCIPLES
 
   > "Simple things should be simple, complex things should be possible."
