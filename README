@@ -193,8 +193,8 @@ TODO, MAYBE
   - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
       1. New table 'media' with prop 'type' among 'book', 'music record', etc.
         Snippets/quotes are just a media type.
-      2. Current 'resources' ARE tags, and everything else is just an entry
-        in relation to this resource.
+      2. Current 'bookmarks' ARE tags, and everything else is just an entry
+        in relation to this bookmark.
       3. Pages '/jukebox', '/cinema', etc are just media grouped by type with
         type-specific style.
 
@@ -204,7 +204,7 @@ TODO, MAYBE
     Handle post submission without reload: listen for 'submit' event.
 
   - Implement random page, show random entries in homepage
-    (1 random music record, 1 random movie, 1 random resource, etc.)
+    (1 random music record, 1 random movie, 1 random bookmark, etc.)
 
   - Support [[table/slug]] refs in html content
 

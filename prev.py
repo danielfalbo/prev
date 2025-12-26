@@ -29,13 +29,13 @@ KB14_URL = 'https://endtimes.dev/why-your-website-should-be-under-14kb-in-size'
 
 # Tables for which we also generate RSS.
 # Must have fields 'title', 'created_time', 'html'.
-RSS_TABLES = {'weblog', 'resources'}
+RSS_TABLES = {'weblog', 'bookmarks'}
 
 # ==================== Relationships Context Configuration =====================
 
 #
 # The following relationships definitions will be used to include 'context' on
-# entries pages, such as including the authors on the entry page of a resource.
+# entries pages, such as including the authors on the entry page of a bookmark.
 #
 # Format:
 # 'this_table': [
@@ -47,13 +47,13 @@ RSS_TABLES = {'weblog', 'resources'}
 # /<table>/[slug].html
 #
 RELATIONSHIPS = {
-    'resources': [
-        ('resource_authors', 'id', 'resource_id',
+    'bookmarks': [
+        ('bookmark_authors', 'id', 'bookmark_id',
          'authors', 'id', 'author_id')
     ],
     'authors': [
-        ('resource_authors', 'id', 'author_id',
-         'resources', 'id', 'resource_id')
+        ('bookmark_authors', 'id', 'author_id',
+         'bookmarks', 'id', 'bookmark_id')
     ]
 }
 
@@ -261,7 +261,7 @@ def entry_page(css, entry):
 TABLE_TO_BUILDER = {
     'authors': author_page,
     'weblog': entry_page,
-    'resources': entry_page,
+    'bookmarks': entry_page,
 }
 
 NOT_FOUND_PAGE = """
