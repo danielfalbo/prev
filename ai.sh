@@ -2,7 +2,7 @@
 
 FILES=(
   "README"
-  "main.py"
+  "prev.py"
   "create.sql"
   "edit.sh"
   "ai.sh"

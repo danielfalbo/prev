@@ -1,17 +1,16 @@
 
 
-            __ ____  ___  __   ____  ____    ___
-            `M6MMMMb `MM 6MM  6MMMMb `MM(    )M'
-             MM'  `Mb MM69 " 6M'  `Mb `Mb    d'
-             MM    MM MM'    MM    MM  YM.  ,P
-             MM    MM MM     MMMMMMMM   MM  M
-             MM    MM MM     MM         `Mbd'
-             MM.  ,M9 MM     YM    d9    YMP
-             MMYMMM9 _MM_     YMMMM9      M
-             MM
-             MM
-            _MM_
-
+            __ ____  ___  __   ____  ____    ___  __ ____  ____    ___
+            `M6MMMMb `MM 6MM  6MMMMb `MM(    )M'  `M6MMMMb `MM(    )M'
+             MM'  `Mb MM69 " 6M'  `Mb `Mb    d'    MM'  `Mb `Mb    d'
+             MM    MM MM'    MM    MM  YM.  ,P     MM    MM  YM.  ,P
+             MM    MM MM     MMMMMMMM   MM  M      MM    MM   MM  M
+             MM    MM MM     MM         `Mbd'      MM    MM   `Mbd'
+             MM.  ,M9 MM     YM    d9    YMP   68b MM.  ,M9    YMP
+             MMYMMM9 _MM_     YMMMM9      M    Y89 MMYMMM9      M
+             MM                                    MM          d'
+             MM                                    MM      (8),P
+            _MM_                                  _MM_      YMM
 
     Build your website like it's 1996, deploy on Vercel like it's 2026.
 
@@ -55,7 +54,7 @@ STATIC SITE GENERATION
 
   Run
 
-    python3 main.py
+    python3 prev.py
 
   and you will be able to
 
@@ -87,10 +86,10 @@ DATABASE SCHEMA
 HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
 
   There are no external HTML template files. The structure of the website is
-  defined entirely in 'main.py' using Python functions. Some CSS and JS is
+  defined entirely in 'prev.py' using Python functions. Some CSS and JS is
   occasionally injected by Python as well.
 
-  To change the look of the site, edit the functions in 'main.py'.
+  To change the look of the site, edit the functions in 'prev.py'.
 
   For all entries of tables that have a 'created_time' property, there is a
   special component
@@ -103,12 +102,12 @@ HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
     'written on December 15, 2022 (2y ago, 19.01 y.o.)'
 
   via injected js based on the 'created_time' value of the given entry in the
-  database and the 'AUTHOR_BIRTHDAY' from 'main.py' as ISO 8601 date string.
+  database and the 'AUTHOR_BIRTHDAY' from 'prev.py' as ISO 8601 date string.
 
 RSS FEEDS
 
   The site generator automatically creates an RSS 2.0 XML feed for tables
-  defined at 'RSS_TABLES' in 'main.py'. These are output to 'dist/<table>/rss'.
+  defined at 'RSS_TABLES' in 'prev.py'. These are output to 'dist/<table>/rss'.
 
   The content within the RSS items includes the raw HTML from the database
   entry wrapped in CDATA tags.
@@ -160,7 +159,7 @@ LIVE PREVIEW
   You can start compiling 'dist/<table>/[slug].html' with local '{html}' content
   by starting the watch server with
 
-    python3 main.py --watch <table> <slug>
+    python3 prev.py --watch <table> <slug>
 
   and then launching
 

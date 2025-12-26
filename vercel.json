@@ -1,6 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "buildCommand": "python3 main.py",
+  "buildCommand": "python3 prev.py",
   "outputDirectory": "dist"
 }

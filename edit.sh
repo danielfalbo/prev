@@ -95,7 +95,7 @@ echo "Database updated and buffer cleaned."
 # ==========================================
 
 # Rebuild site
-python3 main.py
+python3 prev.py
 
 # Open edited page in browser (using macOS 'open')
 if [[ "$(uname -s)" == "Darwin" ]]; then
