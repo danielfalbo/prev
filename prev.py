@@ -400,8 +400,11 @@ def generate_section(db, css, table, builder):
         # Append page href row to table index html accumulator,
         # unless marked as unlisted on db.
         if row.get('listed', 1):
+            # try to get title, fallback on name, fallback on slug
+            label = row.get('title', row.get('name', slug))
+
             index_content_html += (f'''<p>
-                <a href="./{table}/{slug}.html">{slug}</a>
+                <a href="./{table}/{slug}.html">{label}</a>
             </p>''')
 
     # Generate table index
