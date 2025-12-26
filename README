@@ -185,9 +185,10 @@ PRINCIPLES
 
 TODO, MAYBE
 
-  - https://cdn.danielfalbo.com/tags.png
-
-  - Snippets table
+  - Notion/Substack content parity:
+    https://cdn.danielfalbo.com/tags.png,
+    https://cdn.danielfalbo.com/routine.png,
+    https://cdn.danielfalbo.com/old.png,
 
   - Introduce a server and dynamic content to implement visitors stats and text
     message user reach-out form, make sure client-facing SQL queries are
