@@ -13,7 +13,7 @@ CREATE TABLE resources (
     html TEXT
 );
 
-CREATE TABLE notes (
+CREATE TABLE weblog (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     slug TEXT UNIQUE NOT NULL,
     title TEXT NOT NULL,

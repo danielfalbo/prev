@@ -29,7 +29,7 @@ KB14_URL = 'https://endtimes.dev/why-your-website-should-be-under-14kb-in-size'
 
 # Tables for which we also generate RSS.
 # Must have fields 'title', 'created_time', 'html'.
-RSS_TABLES = {'notes', 'resources'}
+RSS_TABLES = {'weblog', 'resources'}
 
 # ==================== Relationships Context Configuration =====================
 
@@ -134,10 +134,10 @@ a:hover { text-decoration: none; }
 DOT = h('span', {}, ' · ')
 NAVBAR = h('p', {},
     h('a', {'href': '/index.html'}, 'root'),
-    DOT, h('a', {'href': '/notes/code.html'}, 'code'),
-    DOT, h('a', {'href': '/notes/words.html'}, 'words'),
-    DOT, h('a', {'href': '/notes.html'}, 'weblog'),
-    DOT, h('a', {'href': '/notes/rss'}, 'rss'),
+    DOT, h('a', {'href': '/weblog/code.html'}, 'code'),
+    DOT, h('a', {'href': '/weblog/words.html'}, 'words'),
+    DOT, h('a', {'href': '/weblog.html'}, 'weblog'),
+    DOT, h('a', {'href': '/weblog/rss'}, 'rss'),
 )
 
 WAVING_HAND_CSS = """
@@ -219,7 +219,7 @@ def index(css):
         ),
         h('p', {},
             "🧮 Studying ",
-            h('a', {'href': './notes/learning-library.html'}, "Computers & AI")
+            h('a', {'href': './weblog/learning-library.html'}, "Computers & AI")
         ),
         h('p', {},
             "🎂 ",
@@ -262,7 +262,7 @@ def entry_page(css, entry):
 
 TABLE_TO_BUILDER = {
     'authors': author_page,
-    'notes': entry_page,
+    'weblog': entry_page,
     'resources': entry_page,
 }
 
@@ -438,8 +438,8 @@ def generate_rss(db, table):
         # but some dates may have been updated manually to be just YYYY-MM-DD.
         #
         # Run
-        #   'SELECT created_time FROM notes' or
-        #   'SELECT created_time FROM notes'
+        #   'SELECT created_time FROM weblog' or
+        #   'SELECT created_time FROM weblog'
         # to see what does the DB look like in practice.
         dt = r['created_time'].split(' ')[0]
         dt = datetime.strptime(dt, "%Y-%m-%d")
