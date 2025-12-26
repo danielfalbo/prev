@@ -537,6 +537,10 @@ def watch_buffer(table, slug):
             os.lseek(fd, 0, os.SEEK_SET)
             html = os.read(fd, size).decode('utf-8')
 
+            # Inject dateage js
+            if 'created_time' in row:
+                html += dateage_js(row['created_time'])
+
             # Generate just this file
             content = builder(css, {**row, 'html': html, 'context': ''})
 
