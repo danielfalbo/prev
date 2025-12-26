@@ -185,6 +185,10 @@ PRINCIPLES
 
 TODO, MAYBE
 
+  - Drop 'RELATIONSHIPS' in favour of native SQLite views.
+
+  - Introduce SNIPPETS(id, slug, txt, created_time, author_id).
+
   - Notion/Substack content parity:
     https://cdn.danielfalbo.com/tags.png,
     https://cdn.danielfalbo.com/routine.png,
@@ -200,8 +204,6 @@ TODO, MAYBE
     https://news.ycombinator.com/item?id=44937991,
     http://bettermotherfuckingwebsite.com,
     https://danburzo.ro/add-a-web-feed/
-
-  - Drop 'RELATIONSHIPS' in favour of native SQLite views.
 
   - Improve overall accessibility: it should be as accessible and bulletproof
     as critical services websites should.
