@@ -216,11 +216,4 @@ TODO, MAYBE
     http://bettermotherfuckingwebsite.com,
     https://danburzo.ro/add-a-web-feed/
 
-  - Breadcrumbs for table entry pages
-
   - Drop 'RELATIONSHIPS' in favour of native SQLite views.
-
-  - Intercept clicks on <a>s, preload page on hover and just swap html content
-    on click.
-
-  - Improve design on mobile
