@@ -109,6 +109,30 @@ def h(tag, props={}, *children):
     return f"<{tag} {attr_str}>{inner_html}</{tag}>"
 
 # ======================= HTML Templates and Components ========================
+GLOBAL_CSS = """
+:root { --default-font-size: 1rem; }
+
+html { color-scheme: light dark; }
+
+body {
+  font-family:
+    "SF Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  max-width: 42rem;
+  margin: 24px auto 24px auto;
+  font-size: var(--default-font-size);
+}
+
+a { color: light-dark(black, white); }
+
+a:hover { text-decoration: none; }
+
+.section-title { padding-top: 2rem; font-weight: bold; }
+
+.section-content { opacity: 0.8; font-size: 0.8rem }
+"""
+
 DOT = h('span', {}, ' · ')
 NAVBAR = h('p', {},
     h('a', {'href': '/index.html'}, 'home'),
@@ -211,13 +235,6 @@ def index(css):
     ]))
 
 # ======================= Loading conntent from files ==========================
-
-def load_global_css():
-    """
-    Reads the global.css file from the template dir
-    and returns its string.
-    """
-    return (TMPL_DIR / 'global.css').read_text()
 
 def load_tmpl(name):
     """
@@ -406,7 +423,7 @@ def generate_all(db):
     shutil.copytree(ASSETS_DIR, DIST_DIR / 'assets', dirs_exist_ok=True)
     print(f"[OK] Copied assets to {DIST_DIR / 'assets'}")
 
-    css = load_global_css()
+    css = GLOBAL_CSS
 
     cmps = load_cmps()
 
@@ -457,7 +474,7 @@ def watch_buffer(table, slug):
     kq.control([kevent], 0)
 
     template = (TMPL_DIR / f'{table}.html').read_text()
-    css = load_global_css()
+    css = GLOBAL_CSS
 
     try:
         while True:
