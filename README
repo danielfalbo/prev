@@ -12,7 +12,7 @@
              MM                                    MM      (8),P
             _MM_                                  _MM_      YMM
 
-    Build your website like it's 1996, deploy on Vercel like it's 2026.
+      Build your website like it's 1996, deploy on Vercel like it's 2026.
 
 
 BLUF
@@ -28,6 +28,7 @@ BLUF
 WELCOME
 
   This repo contains code and data for my personal website, blog, and bookmarks.
+
   Visit https://danielfalbo.com to see it in action.
 
   You can fork and use this as a template for your website.
@@ -36,17 +37,6 @@ WELCOME
 
   In case you are reading this document somewhere else, you can find the
   official git repository at https://github.com/danielfalbo/prev.
-
-PRINCIPLES
-
-  > "Simple things should be simple, complex things should be possible."
-    - Alan Kay
-
-  > "Make every detail perfect and limit the number of details to perfect."
-    - Jack Dorsey
-
-  > "Good design is as little design as possible."
-    - Dieter Rams
 
 STATIC SITE GENERATION
 
@@ -182,28 +172,28 @@ LLMs ASSISTANCE
 
   which ignores *.html.
 
+PRINCIPLES
+
+  > "Simple things should be simple, complex things should be possible."
+    - Alan Kay
+
+  > "Make every detail perfect and limit the number of details to perfect."
+    - Jack Dorsey
+
+  > "Good design is as little design as possible."
+    - Dieter Rams
+
 TODO, MAYBE
 
-  - Tags table (see https://cdn.danielfalbo.com/tags.png). Consider this:
-      1. New table 'media' with prop 'type' among 'book' (includes fiction,
-      non-fiction, textbooks), 'post' (includes talks, articles, papers,
-      whitepapers) 'snippets' (includes 'quotes' but also code).
-      2. Current 'bookmarks' ARE tags, and everything else is just an entry
-        in relation to this bookmark.
+  - https://cdn.danielfalbo.com/tags.png
 
-    Also consider this:
-      1. 'bookmarks' get 'type' string field and 'tags' string field.
+  - Snippets table
 
   - Introduce a server and dynamic content to implement visitors stats and text
     message user reach-out form, make sure client-facing SQL queries are
     injection-safe, if any. Minimize JSON parsing overhead: consider returing
     HTML from the server. Handle post submission without reload: listen for
     'submit' event.
-
-  - Implement random page, show random entries in homepage
-    (1 random music record, 1 random movie, 1 random bookmark, etc.)
-
-  - Support [[table/slug]] refs in html content
 
   - Consider https://html3000.dev,
     https://news.ycombinator.com/item?id=44937991,
