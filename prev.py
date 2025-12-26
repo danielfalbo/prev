@@ -247,7 +247,8 @@ def table_index_page(css, table, html):
 def author_page(css, entry):
     return layout(entry['name'], css, "".join([
         NAVBAR,
-        title_component(entry['name'])
+        title_component(entry['name']),
+        entry['context'],
     ]))
 
 def entry_page(css, entry):
