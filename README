@@ -134,6 +134,23 @@ CREATING/UPDATING/DELETING DATA
   2. The buffer file file is only cleared/emptied after the content is
      successfully committed to the database.
 
+  For ergonomic editing and previewing of the html content, prev.py also comes
+  with a live compilation feature.
+
+  You can start live compiling 'dist/<table>/[slug].html' with local
+  'buf_<table>_<slug>.html' content on save by starting the watch server with
+
+    python3 prev.py --watch <table> <slug>
+
+  or by using the edit.sh with the '--watch' flag as
+
+    ./edit.sh --watch <table> <slug>
+
+  which will run the watcher in the background and terminate it on exit.
+
+  Note: the watcher only works on BSD because it relies on the 'kqueue' syscall
+    to listen for file changes.
+
 DB DIFF
 
   Since the database is a binary file, standard 'git diff' is not useful to
@@ -146,29 +163,6 @@ DB DIFF
 
   Note: we tell git that the filetype for '*.db' files is 'sqlite3' in the
     '.gitattributes' file.
-
-LIVE PREVIEW
-
-  For ergonomic editing and previewing of the html content, the generation
-  script also comes with a live compilation feature.
-
-  You can start compiling 'dist/<table>/[slug].html' with local '{html}' content
-  by starting the watch server with
-
-    python3 prev.py --watch <table> <slug>
-
-  and then launching
-
-    ./edit.sh <table> <slug>
-
-  to load the current html content onto a buffer file and edit it in vi.
-  Saving the file will trigger compilation of 'dist/<table>/[slug].html'
-  so you will be able to preview your changes in the browser. Upon closing
-  vi, the content of the buffer html will be dumped onto the database as
-  html content of the given entry in the given table.
-
-  Note: this feature only works on BSD because it relies on the kqueue syscall
-    to listen for file changes.
 
 LLMs ASSISTANCE
 
@@ -220,3 +214,5 @@ TODO, MAYBE
   - Improve overall accessibility: it should be as accessible and bulletproof
     as critical services websites should.
     https://news.ycombinator.com/item?id=26691156
+
+  - More granular sqlite diff. Substring level.

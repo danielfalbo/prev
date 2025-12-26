@@ -13,7 +13,7 @@ DB="knowledge.db"
 BUF="buf_${TABLE}_${SLUG}.html"
 
 # ==========================================
-# 1. Create Entry on DB if Missing.
+# Create Entry on DB if Missing.
 # ==========================================
 
 # Check if entry already exists.
@@ -66,7 +66,21 @@ else
 fi
 
 # ==========================================
-# 3. Editing.
+#  Start watcher for live preview.
+# ==========================================
+
+# Start prev.py in watch mode in the background.
+# We redirect stdout/stderr to /dev/null to prevent text from
+# messing up the vim interface when changes are detected.
+echo "Starting live preview at dist/$TABLE/$SLUG.html ..."
+python3 prev.py --watch "$TABLE" "$SLUG" > /dev/null 2>&1 &
+WATCH_PID=$!
+
+# Register a trap to kill the watcher process when this script exits.
+trap "kill $WATCH_PID 2>/dev/null" EXIT
+
+# ==========================================
+#  Editing.
 # ==========================================
 
 # Open vim for editing of the html content.
@@ -77,7 +91,7 @@ fi
 vi -c "set backupcopy=yes" "$BUF"
 
 # ==========================================
-# 4. Save and Cleanup.
+# Save and Cleanup.
 # ==========================================
 
 # Attempt to write updated html content back to DB.
@@ -91,7 +105,7 @@ rm "$BUF"
 echo "Database updated and buffer cleaned."
 
 # ==========================================
-# 5. Rebuild and Preview.
+# Final Rebuild.
 # ==========================================
 
 # Rebuild site
