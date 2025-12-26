@@ -100,7 +100,117 @@ def xml_escape(s):
     s = s.replace(">", "&gt;")
     return s
 
-# =========================== Site Generation ==================================
+# =========================== HTML as Python Funciton ==========================
+
+# Usage: h('p', {'id': 'hello'}, 'Hello', h('span', {}, 'World'))
+def h(tag, props={}, *children):
+    attr_str = " ".join([f'{key}="{value}"' for key, value in props.items()])
+    inner_html = "".join(children)
+    return f"<{tag} {attr_str}>{inner_html}</{tag}>"
+
+# ======================= HTML Templates and Components ========================
+DOT = h('span', {}, ' · ')
+NAVBAR = h('p', {},
+    h('a', {'href': '/index.html'}, 'home'),
+    DOT, h('a', {'href': '/notes/code.html'}, 'code'),
+    DOT, h('a', {'href': '/notes/words.html'}, 'words')
+)
+
+WAVING_HAND_CSS = """
+@keyframes wave {
+  0%   { transform: rotate( 0.0deg) }
+  10%  { transform: rotate( 0.0deg) }
+  20%  { transform: rotate( 0.0deg) }
+  30%  { transform: rotate( 0.0deg) }
+  40%  { transform: rotate( 0.0deg) }
+  50%  { transform: rotate(14.0deg) }
+  60%  { transform: rotate(-8.0deg) }
+  70%  { transform: rotate(14.0deg) }
+  80%  { transform: rotate(-4.0deg) }
+  90%  { transform: rotate(10.0deg) }
+  100% { transform: rotate( 0.0deg) }
+}
+
+#waving-hand {
+  /* Set the pivot point to the bottom-left corner (the wrist) */
+  transform-origin: 70% 70%;
+
+  /* Ensure the hand is treated as a block for the transform to work well */
+  display: inline-block;
+
+  /* Apply the animation: name | duration | timing | repetition */
+  animation: wave 2.5s ease-in-out 1;
+}
+"""
+
+LIVE_AGE_JS = """
+const LiveAge = document.getElementById("live-age");
+
+// Average length of a Gregorian year in milliseconds
+const MS_PER_YEAR = 365.2425 * 24 * 60 * 60 * 1000;
+
+// December 10, 2003 at 1:30 PM Rome time (CET, UTC+1)
+const BIRTH_MS = new Date("2003-12-10T13:30:00+01:00").getTime();
+
+// Get unix timestamp milliseconds for current datetime
+const startTimestampMs = Date.now();
+
+const tick = () => {
+  const msSincePageStartedLoading = performance.now();
+  const nowMs = startTimestampMs + msSincePageStartedLoading;
+  const age = (nowMs - BIRTH_MS) / MS_PER_YEAR;
+
+  LiveAge.textContent = age.toFixed(9);
+
+  requestAnimationFrame(tick);
+}
+
+tick();
+"""
+
+def layout(title, css, body_content):
+    return "<!doctype html>" + h('html', {},
+
+        h('head', {},
+            h('title', {}, f'{title} | danielfalbo'),
+            h('style', {}, css),
+            h('meta', {'charset': 'UTF-8'}),
+            h('link', {'rel': 'icon', 'type': 'image/x-icon',
+                        'href': '/assets/favicon.ico'})
+        ),
+
+        h('body', {}, body_content)
+    )
+
+def index(css):
+    return layout("Home", css, "".join([
+        NAVBAR,
+        h('p', {'style': 'font-size: 3rem; font-weight: 700; margin: 0px'},
+            "Hi, I'm Daniel ",
+            h('span', {'id': 'waving-hand'}, '👋')
+        ),
+        h('p', {}, "🇬🇧 Software Engineer at ",
+            h('a', {'href': 'https://wikipedia.org/wiki/Palantir_Technologies'},
+                'PLTR'),
+            " London"
+        ),
+        h('p', {},
+            "🧮 Studying ",
+            h('a', {'href': './notes/learning-library.html'}, "Computers & AI")
+        ),
+        h('p', {},
+            "🎂 ",
+            h('span', {'id': 'live-age'}, ""),
+            " years old"
+        ),
+        h('p', {}, "🕺 Dancer"),
+        h('code', {}, ":wq↵"),
+
+        h('script', {}, LIVE_AGE_JS),
+        h('style', {}, WAVING_HAND_CSS)
+    ]))
+
+# ======================= Loading conntent from files ==========================
 
 def load_global_css():
     """
@@ -127,6 +237,8 @@ def load_cmps():
         cmps[stem] = path.read_text()
 
     return cmps
+
+# =========================== Site Generation ==================================
 
 def gen_tmpl_values(db, table, cmps):
     """
@@ -251,25 +363,24 @@ def generate_rss(db, table):
         dt = dt.replace(tzinfo=timezone.utc)
         dt = format_datetime(dt)
 
-        items_xml += f"""
-    <item>
-      <title>{title}</title>
-      <guid>{link}</guid>
-      <link>{link}</link>
-      <pubDate>{dt}</pubDate>
-      <description>
-        <![CDATA[ {r['html']} ]]>
-      </description>
-    </item>"""
+        items_xml += f"""<item>
+          <title>{title}</title>
+          <guid>{link}</guid>
+          <link>{link}</link>
+          <pubDate>{dt}</pubDate>
+          <description>
+            <![CDATA[ {r['html']} ]]>
+          </description>
+        </item>"""
 
-    rss_content = f"""<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-  <channel>
-    <title>{table} | danielfalbo</title>
-    <link>{BASE_URL}/{table}</link>
-    <description>Latest entries from {table}</description>
-    {items_xml}
-  </channel>
-</rss>"""
+        rss_content = f"""<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+          <channel>
+            <title>{table} | danielfalbo</title>
+            <link>{BASE_URL}/{table}</link>
+            <description>Latest entries from {table}</description>
+            {items_xml}
+          </channel>
+        </rss>"""
 
     write_file(DIST_DIR / table / "rss", rss_content)
 
@@ -300,6 +411,10 @@ def generate_all(db):
     cmps = load_cmps()
 
     tables = get_db_tables(db)
+
+    # write index.html from index(css) function
+    INDEX_PATH = DIST_DIR / f'index.html'
+    write_file(INDEX_PATH, index(css))
 
     # For each available template, find its database table and generate
     # a section with one html page per entry, replacing any placeholder value
@@ -374,11 +489,9 @@ def main():
         with closing(sqlite3.connect(DB_FILE)) as db:
             db.row_factory = sqlite3.Row # Access columns by name
             generate_all(db)
-
     elif len(sys.argv) == 4 and sys.argv[1] == '--watch':
         table, slug = sys.argv[2], sys.argv[3]
         watch_buffer(table, slug)
-
     else:
         die_with_honor(USAGE_STR)
 
