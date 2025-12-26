@@ -17,7 +17,6 @@ import sqlite3
 
 DB_FILE = 'knowledge.db'
 DIST_DIR = Path('dist')
-CMPS_DIR = Path('components')
 ASSETS_DIR = Path('assets')
 
 # ISO 8601 date string for December 10, 2003 at 1:30 PM Rome time (CET, UTC+1)
@@ -191,7 +190,7 @@ const tick = () => {
 tick();
 """
 
-def layout(title, css, body_content):
+def layout(title, css, body_content_list):
     return "<!doctype html>" + h('html', {},
 
         h('head', {},
@@ -202,11 +201,11 @@ def layout(title, css, body_content):
                         'href': '/assets/favicon.ico'})
         ),
 
-        h('body', {}, body_content)
+        h('body', {}, "".join(body_content_list))
     )
 
 def index(css):
-    return layout("Home", css, "".join([
+    return layout("Home", css, [
         NAVBAR,
         h('p', {'style': 'font-size: 3rem; font-weight: 700; margin: 0px'},
             "Hi, I'm Daniel ",
@@ -231,11 +230,18 @@ def index(css):
 
         h('script', {}, LIVE_AGE_JS),
         h('style', {}, WAVING_HAND_CSS)
-    ]))
+    ])
 
 def title_component(title_str):
     return h('p', {'style': """font-size: 3rem; font-weight: 700; margin: 0px;
                                 word-break: break-word"""}, title_str)
+
+def table_index_page(css, table, html):
+    return layout(table, css, [
+        NAVBAR,
+        title_component(table),
+        html
+    ])
 
 def author_page(css, entry):
     return layout(entry['name'], css, "".join([
@@ -264,24 +270,9 @@ NOT_FOUND_PAGE = """
 <pre>go <a href='/'>home</></pre>
 """
 
-# ======================= Loading conntent from files ==========================
-
-def load_cmps():
-    """
-    Returns a dictionary from 'name' to html content of file at
-    CMPS_DIR / 'name'.html.
-    """
-    cmps = {}
-
-    for path in CMPS_DIR.rglob('*.html'):
-        stem = path.stem
-        cmps[stem] = path.read_text()
-
-    return cmps
-
 # =========================== Site Generation ==================================
 
-def gen_tmpl_values(db, table, cmps):
+def gen_tmpl_values(db, table):
     """
     Returns a dict from slug to a key-value object with the values to
     replace each placeholder key when rendering pages from template.
@@ -294,7 +285,7 @@ def gen_tmpl_values(db, table, cmps):
     tmpl_values_by_slug = { r['slug']: {**dict(r), 'context': ''} for r in rows}
 
     # Replace the '{dateage}' placehoder in entries' 'html'
-    dateage_cmp = cmps['dateage']
+    dateage_cmp = Path('components/dateage.html').read_text()
     for slug in tmpl_values_by_slug:
         html = tmpl_values_by_slug[slug].get('html', None)
         created_time = tmpl_values_by_slug[slug].get('created_time', None)
@@ -339,13 +330,12 @@ def gen_tmpl_values(db, table, cmps):
 
     return tmpl_values_by_slug
 
-def generate_section(db, css, cmps, table, builder):
+def generate_section(db, css, table, builder):
     """
     Generate html page for 'table' index at 'DIST_DIR/<table>.html' and page for
     all entries of given 'table' within 'db' at 'DIST_DIR/<table>/[slug].html'.
     """
-    values = gen_tmpl_values(db, table, cmps)
-    list_cmpn = cmps['list']
+    values = gen_tmpl_values(db, table)
     index_content_html = ''
 
     for slug, row in values.items():
@@ -363,8 +353,7 @@ def generate_section(db, css, cmps, table, builder):
 
     # Generate table index
     index_path = DIST_DIR / f"{table}.html"
-    index_html = list_cmpn.format(css=css, table=table,
-                                  content=index_content_html)
+    index_html = table_index_page(css, table, index_content_html)
     write_file(index_path, index_html)
 
 def generate_rss(db, table):
@@ -431,8 +420,6 @@ def generate_all(db):
 
     css = GLOBAL_CSS
 
-    cmps = load_cmps()
-
     tables = get_db_tables(db)
 
     # write index.html from index(css) function
@@ -448,7 +435,7 @@ def generate_all(db):
     # value from the template with its value on the given entry row.
     for table, builder in TABLE_TO_BUILDER.items():
         assert table in tables
-        generate_section(db, css, cmps, table, builder)
+        generate_section(db, css, table, builder)
 
     # Generate RSS feeds for RSS_TABLES.
     for table in RSS_TABLES:
