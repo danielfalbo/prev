@@ -255,7 +255,6 @@ def entry_page(css, entry):
         NAVBAR,
         title_component(entry['title']),
         entry['context'],
-        '<hr/>',
         entry['html']
     ]))
 
