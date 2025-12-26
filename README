@@ -63,6 +63,15 @@ STATIC SITE GENERATION
 
   or any generated html file under 'dist/' with your browser.
 
+  It can be ergonomic to
+
+    cd dist/
+    python3 -m http.server
+
+  and then browse to http://localhost:8000 so that absolute hrefs will work too,
+  among other features that may be broken when just opening the generated html
+  files from the filesystem with the browser.
+
 DATABASE SCHEMA
 
   Your computer likely already comes with sqlite3 installed.
