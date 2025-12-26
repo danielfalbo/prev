@@ -35,7 +35,8 @@ RSS_TABLES = {'notes', 'resources'}
 # ==================== Relationships Context Configuration =====================
 
 #
-# See '{context}' token section of the 'TEMPLATES' paragraph of README.
+# The following relationships definitions will be used to include 'context' on
+# entries pages, such as including the authors on the entry page of a resource.
 #
 # Format:
 # 'this_table': [
@@ -270,33 +271,85 @@ NOT_FOUND_PAGE = """
 <pre>go <a href='/'>home</></pre>
 """
 
+def dateage_js(created_time):
+    return " ".join([
+        f"""
+<script>
+    const createdStr = "{created_time}";
+    const birthStr = "{AUTHOR_BIRTHDAY}";
+        """,
+
+        """
+const container = document.getElementById("dateage");
+
+const formatDate = (dateString, birthString) => {
+    const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.2425;
+
+    const targetDate = new Date(dateString);
+    const birthDate = new Date(birthString);
+    const now = new Date();
+
+    // Calculate time difference relative to now (client-side)
+    const timeDifference = Math.abs(now.getTime() - targetDate.getTime());
+    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    // Calculate age at the created_time of the entry
+    const ageAtPostTime = (
+        (targetDate.getTime() - birthDate.getTime()) / MS_PER_YEAR
+    );
+    const ageSuffix = ageAtPostTime >= 0
+      ? `, ${ageAtPostTime.toFixed(2)} y.o.`
+      : '';
+
+    // Format the display date (e.g. "December 15, 2022")
+    const fullDate = targetDate.toLocaleString('en-us', {
+      month: 'long', day: 'numeric', year: 'numeric'
+    });
+
+    // Return the string based on "Ago" buckets
+    if (daysAgo < 1) {
+      return 'Today';
+    } else if (daysAgo < 7) {
+      return `${fullDate} (${daysAgo}d ago${ageSuffix})`;
+    } else if (daysAgo < 30) {
+      const weeksAgo = Math.floor(daysAgo / 7);
+      return `${fullDate} (${weeksAgo}w ago${ageSuffix})`;
+    } else if (daysAgo < 365) {
+      const monthsAgo = Math.floor(daysAgo / 30);
+      return `${fullDate} (${monthsAgo}mo ago${ageSuffix})`;
+    } else {
+      const yearsAgo = Math.floor(daysAgo / 365);
+      return `${fullDate} (${yearsAgo}y ago${ageSuffix})`;
+    }
+};
+
+// Render
+container.innerText = `written on ${formatDate(createdStr, birthStr)}`
+</script>
+        """
+    ])
+
 # =========================== Site Generation ==================================
 
 def gen_tmpl_values(db, table):
     """
     Returns a dict from slug to a key-value object with the values to
-    replace each placeholder key when rendering pages from template.
+    be used as arguments when rendering pages via builder functions.
     """
 
     # Fetch entries from the given table
     rows = db.execute(f'SELECT * FROM {table}').fetchall()
 
     # Construct a map from slug to key-value replacements
-    tmpl_values_by_slug = { r['slug']: {**dict(r), 'context': ''} for r in rows}
+    tmpl_values_by_slug = {r['slug']: {**dict(r), 'context': ''} for r in rows}
 
-    # Replace the '{dateage}' placehoder in entries' 'html'
-    dateage_cmp = Path('components/dateage.html').read_text()
+    # Append DATEAGE JS <script> to 'html' content
     for slug in tmpl_values_by_slug:
         html = tmpl_values_by_slug[slug].get('html', None)
         created_time = tmpl_values_by_slug[slug].get('created_time', None)
+        if html is None or created_time is None: continue
 
-        if html is None or created_time is None:
-            continue
-
-        tmpl_values_by_slug[slug]['html'] = html.format(
-            dateage=dateage_cmp.format(created_time=created_time,
-                                       AUTHOR_BIRTHDAY=AUTHOR_BIRTHDAY)
-        )
+        tmpl_values_by_slug[slug]['html'] += dateage_js(created_time)
 
     # Construct the 'context' value to contain hyperlinks to all pages related
     # to the one with the given slug, based on the defined 'RELATIONSHIPS'.
@@ -322,7 +375,9 @@ def gen_tmpl_values(db, table):
         for row_slug, rel_slugs in relations_map.items():
             if row_slug in tmpl_values_by_slug:
                 links = "".join([
-                    f'<p><a href="../{b}/{s}.html">/{b}/{s}</a></p>'
+                    h('p', {},
+                        h('a', {'href': f'../{b}/{s}.html'}, f'/{b}/{s}')
+                    )
                     for s in rel_slugs
                 ])
 

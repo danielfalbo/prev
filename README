@@ -84,31 +84,26 @@ DATABASE SCHEMA
 
   or by just reading the 'create.db' script.
 
-TEMPLATES
+HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
 
-  Each "templates/<table>.html" file is the template page for entries of the
-  given table. Site generation will create 'dist/<table>/[slug].html' files
-  for each entry of each table that has a template. In the templates html you
-  can use columns names inside brackets as '{placeholders}' for data that will
-  be replaced with the actual value of the given column at generation time.
+  There are no external HTML template files. The structure of the website is
+  defined entirely in 'main.py' using Python functions. Some CSS and JS is
+  occasionally injected by Python as well.
 
-  All other "templates/<title>.html" where 'title' is not a table name will be
-  rendered as standalone pages at 'dist/<title>.html'.
+  To change the look of the site, edit the functions in 'main.py'.
 
-  The "templates/global.css" content can be imported into any template via the
-  special '{css}' placeholder.
+  For all entries of tables that have a 'created_time' property, there is a
+  special component
 
-  The '{dateage}' is a special placeholder you can use within the entries 'html'
-  that resolves to a dynamic component formatted like
+    <span id='dateage'></span>
 
-    'December 15, 2022 (2y ago, 19.01 y.o.)'
+  you can use in the entry 'html' content to display the dynamic age of a post.
+  The inner text of the component will be replaced with a string like
 
-  based on the 'created_time' value of the given entry in the database and the
-  'AUTHOR_BIRTHDAY' from 'main.py' as ISO 8601 date string.
+    'written on December 15, 2022 (2y ago, 19.01 y.o.)'
 
-  There is a special '{context}' placeholder which will render hrefs to
-  pages from other tables that have a relationship with this entry as specified
-  in the 'RELATIONSHIPS' config object of 'main.py'.
+  via injected js based on the 'created_time' value of the given entry in the
+  database and the 'AUTHOR_BIRTHDAY' from 'main.py' as ISO 8601 date string.
 
 RSS FEEDS
 
@@ -117,39 +112,6 @@ RSS FEEDS
 
   The content within the RSS items includes the raw HTML from the database
   entry wrapped in CDATA tags.
-
-COMPONENTS
-
-  Components are like templates except their path and filename has no semantic
-  meaning, they are just used by name wherever they are needed.
-
-  As of today, the only components available are:
-
-  _ "components/list.html" which is used as layout for generating indices at
-    "dist/<table>.html" for each table in the db, and
-
-  _ "components/dateage.html" which is used as blueprint for generating
-    '{dateage}' blocks as described above.
-
-ESCAPING BRACKETS FOR JS/CSS IN TEMPLATES AND COMPONENTS HTML
-
-  Since {placeholders} replacement is done with Python's str.format, brackets in
-  templates and components required for css/js must be escaped by being doubled.
-
-  So
-
-    function() {
-      console.log({str_injected_by_python});
-    }
-
-  should be written as
-
-    function() {{
-      console.log({str_injected_by_python});
-    }}
-
-  in order for Python not to try to replace the function's body with some value
-  from the format map.
 
 ASSETS
 
@@ -232,12 +194,6 @@ LLMs ASSISTANCE
   which ignores *.html.
 
 TODO, MAYBE
-
-  - Turn all html templates and components into python code.
-    See https://github.com/danielfalbo/old.danielfalbo.com/blob/main/public/solid-danielfalbo.html#L32.
-    'str.format' should never be used, we should just call functions instead.
-
-      - [ ] Fix --watch
 
   - 'notes' should be 'weblog'. should it?
 

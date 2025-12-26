@@ -4,11 +4,8 @@ FILES=(
   "README"
   "main.py"
   "create.sql"
-  "components/list.html"
-  "components/dateage.html"
   "edit.sh"
   "ai.sh"
-  "templates/404.html"
   "vercel.json"
 )
 
