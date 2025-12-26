@@ -232,8 +232,10 @@ def index(css):
     ])
 
 def title_component(title_str):
-    return h('p', {'style': """font-size: 3rem; font-weight: 700; margin: 0px;
-                                word-break: break-word"""}, title_str)
+    return h('p', {'style': """font-size: 3rem;
+                                font-weight: 700; margin: 0px;
+                                word-break: break-word;
+                                text-transform: uppercase;"""}, title_str)
 
 def table_index_page(css, table, html):
     return layout(table, css, [
