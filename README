@@ -23,8 +23,6 @@ BLUF
   - Personal website with bookmarks, blog and RSS.
   - Implements SSG in Python reading data from a SQLite.
 
-  hn: https://news.ycombinator.com/item?id=46229756
-
 WELCOME
 
   This repo contains all code and data for my personal website, blog, bookmarks.
