@@ -133,13 +133,20 @@ a:hover { text-decoration: none; }
 .section-title { padding-top: 2rem; font-weight: bold; }
 
 .section-content { opacity: 0.8; font-size: 0.8rem }
+
+.title-component {
+    font-size: 3rem;
+    font-weight: 700; margin: 0px;
+    word-break: break-word;
+    text-transform: uppercase;
+}
 """
 
 DOT = h('span', {}, ' · ')
 NAVBAR = h('p', {},
     h('a', {'href': '/index.html'}, 'root'),
-    DOT, h('a', {'href': '/weblog/code.html'}, 'code'),
-    DOT, h('a', {'href': '/weblog/words.html'}, 'words')
+    # DOT, h('a', {'href': '/weblog/code.html'}, 'code'),
+    # DOT, h('a', {'href': '/weblog/words.html'}, 'words')
 )
 
 WAVING_HAND_CSS = """
@@ -207,7 +214,7 @@ def layout(title, css, body_content_list):
         h('body', {}, "".join(body_content_list))
     )
 
-def index(css):
+def index(css, more_html_content):
     return layout("Home", css, [
         NAVBAR,
         h('p', {'style': 'font-size: 3rem; font-weight: 700; margin: 0px'},
@@ -231,15 +238,14 @@ def index(css):
         h('p', {}, "🕺 Dancer"),
         h('code', {}, ":wq↵"),
 
+        more_html_content,
+
         h('script', {}, LIVE_AGE_JS),
         h('style', {}, WAVING_HAND_CSS)
     ])
 
 def title_component(title_str):
-    return h('p', {'style': """font-size: 3rem;
-                                font-weight: 700; margin: 0px;
-                                word-break: break-word;
-                                text-transform: uppercase;"""}, title_str)
+    return h('p', {'class': "title-component"}, title_str)
 
 def table_index_page(css, table, html):
     return layout(table, css, [
@@ -484,9 +490,14 @@ def generate_all(db):
 
     tables = get_db_tables(db)
 
-    # write index.html from index(css) function
+    # write index.html from index() function with blocks from db
     INDEX_PATH = DIST_DIR / f'index.html'
-    write_file(INDEX_PATH, index(css))
+    db_blocks = [
+        db.execute(f"SELECT html FROM weblog WHERE slug='{slug}'").fetchone()
+        for slug in ['words', 'code']
+    ]
+    db_blocks_html = " ".join([row['html'] for row in db_blocks])
+    write_file(INDEX_PATH, index(css, db_blocks_html))
 
     # Write 404.html page
     INDEX_PATH = DIST_DIR / f'404.html'
