@@ -7,10 +7,13 @@ from contextlib import closing
 from datetime import datetime, timezone
 from email.utils import format_datetime
 
-# Use pip-installed pysqlite3 as sqlite3 on non-macOS systems
-if sys.platform != 'darwin':
+# Try to use pip-installed pysqlite3, e.g. on Linux with no system pysqlite;
+# otherwise fall back to the standard library's sqlite3, e.g. on macOS.
+try:
     __import__('pysqlite3')
     sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
 import sqlite3
 
 # ========================= Meta Configuration =================================
