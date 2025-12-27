@@ -12,31 +12,34 @@
          MM                                    MM      (8),P
         _MM_                                  _MM_      YMM
 
-  Build your website like it's 1996, deploy on Vercel like it's 2026.
+                  Build your website like it's 1996,
+            deploy on Vercel (if you want) like it's 2026.
 
 
 BLUF
 
-  - Personal website, blog, and bookmarks.
   - Vanilla anti-framework that scales down.
-  - Compiles in less than 10 seconds on Vercel.
-  - Pages are so light they load almost instantly.
+  - Compiles instanly. Pages also load instantly.
+  - Personal website with bookmarks, blog and RSS.
   - Implements SSG in Python reading data from a SQLite.
 
   hn: https://news.ycombinator.com/item?id=46229756
 
 WELCOME
 
-  This repo contains code and data for my personal website, blog, and bookmarks.
+  This repo contains all code and data for my personal website, blog, bookmarks.
 
   Visit https://danielfalbo.com to see it in action.
 
-  You can fork and use this as a template for your website.
-  You can deploy this for free on https://vercel.com in a couple of clicks,
-  or it's obviously also ready to be deployed anywhere else.
-
   In case you are reading this document somewhere else, you can find the
   official git repository at https://github.com/danielfalbo/prev.py.
+
+USE AS TEMPLATE
+
+  You can fork and use this as a template for your website.
+
+  You can deploy this for free on https://vercel.com in a couple of clicks,
+  or it's obviously also ready to be deployed anywhere and everywhere else.
 
 STATIC SITE GENERATION
 
@@ -65,11 +68,27 @@ DATABASE SCHEMA
 
   Your computer likely already comes with sqlite3 installed.
 
-  You can see the database schema by running
+  You can see the database schema by running the
 
     sqlite3 knowledge.db '.schema'
 
-  which you can also save to a file and use as "create.sql" script.
+  command.
+
+  The schema roughly looks like:
+
+    authors(id, slug, name, created_time);
+    bookmarks(id, slug, title, created_time, html);
+    bookmark_authors(bookmark_id, author_id);
+    weblog(id, slug, title, created_time, html, listed).
+
+  You can clear the data and start from scratch by running
+
+    sqlite3 knowledge.db '.schema' > create.sql
+    rm knowledge.db
+    sqlite3 knowledge.db < create.sql
+
+  effectively making a "create.sql" script out of the current db schema,
+  deleting the database, and recreating it from scratch.
 
 HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
 
@@ -77,7 +96,8 @@ HTML, CSS, JS, TEMPLATES, COMPONENTS, LAYOUTS AND PAGES
   defined entirely in 'prev.py' using Python functions. Some CSS and JS is
   occasionally injected by Python as well.
 
-  To change the look of the site, edit the functions in 'prev.py'.
+  To make changes to the site, edit the "=== HTML Templates and Components ==="
+  section of 'prev.py'.
 
   For all entries of tables that have a 'created_time' property, there is a
   special component
@@ -108,8 +128,9 @@ CREATING/UPDATING/DELETING DATA
   SQLite database file.
 
   Note: git-tracking the database will break if you'll make changes to the DB
-    on multiple branches and then merge them. Changes to the DB are expected
-    to always be made on a single branch and no db merges are ever expected.
+    on multiple branches and then try to merge them. Changes to the DB are
+    expected to always be made on a single branch and no db merges are ever
+    expected. We're all consenting adults here.
 
   To create or edit a page you can use the ergonomic helper script:
 
@@ -123,8 +144,8 @@ CREATING/UPDATING/DELETING DATA
   1. If the buffer file is not empty when you start (e.g., after a crash), the
      script will ask if you want to resume editing that file to prevent data
      loss, or overwrite it with DB content.
-  2. The buffer file file is only cleared/emptied after the content is
-     successfully committed to the database.
+  2. The buffer file is only cleared/emptied after the content is successfully
+    committed to the database.
 
   For ergonomic editing and previewing of the html content, prev.py also comes
   with a live compilation feature.

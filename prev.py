@@ -98,7 +98,7 @@ def xml_escape(s):
     s = s.replace(">", "&gt;")
     return s
 
-# =========================== HTML as Python Funciton ==========================
+# ======================== HTML Functional Components ==========================
 
 # Usage: h('p', {'id': 'hello'}, 'Hello', h('span', {}, 'World'))
 def h(tag, props, *children):
@@ -107,6 +107,7 @@ def h(tag, props, *children):
     return f"<{tag} {attr_str}>{inner_html}</{tag}>"
 
 # ======================= HTML Templates and Components ========================
+
 GLOBAL_CSS = """
 :root { --default-font-size: 1rem; }
 
