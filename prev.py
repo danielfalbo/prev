@@ -140,6 +140,15 @@ a:hover { text-decoration: none; }
     word-break: break-word;
     text-transform: uppercase;
 }
+
+.footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px dashed;
+    font-size: 0.8rem;
+    opacity: 0.5;
+    text-align: center;
+}
 """
 
 DOT = h('span', {}, ' · ')
@@ -147,6 +156,12 @@ NAVBAR = h('p', {},
     h('a', {'href': '/index.html'}, 'root'),
     # DOT, h('a', {'href': '/weblog/code.html'}, 'code'),
     # DOT, h('a', {'href': '/weblog/words.html'}, 'words')
+)
+FOOTER = h('p', {'class': 'footer'},
+    "This entire website is built using 1 single file: ",
+    h('a', {'href': 'https://github.com/danielfalbo/prev.py/blob/main/prev.py'},
+        'prev.py'),
+    "."
 )
 
 WAVING_HAND_CSS = """
@@ -211,12 +226,11 @@ def layout(title, css, body_content_list):
             '<link rel="icon" type="image/x-icon" href="/favicon.ico">',
         ),
 
-        h('body', {}, "".join(body_content_list))
+        h('body', {}, "".join([NAVBAR, *body_content_list, FOOTER]))
     )
 
 def index(css, more_html_content):
     return layout("Home", css, [
-        NAVBAR,
         h('p', {'style': 'font-size: 3rem; font-weight: 700; margin: 0px'},
             "Hi, I'm Daniel ",
             h('span', {'id': 'waving-hand'}, '👋')
@@ -249,21 +263,18 @@ def title_component(title_str):
 
 def table_index_page(css, table, html):
     return layout(table, css, [
-        NAVBAR,
         title_component(table),
         html
     ])
 
 def author_page(css, entry):
     return layout(entry['name'], css, "".join([
-        NAVBAR,
         title_component(entry['name']),
         entry['context'],
     ]))
 
 def entry_page(css, entry):
     return layout(entry['title'], css, "".join([
-        NAVBAR,
         title_component(entry['title']),
         entry['context'],
         entry['html']
