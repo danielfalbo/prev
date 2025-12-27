@@ -38,7 +38,10 @@ USE AS TEMPLATE
 
   You can fork and use this as a template for your website.
 
-  You can deploy this for free on https://vercel.com in a couple of clicks,
+  You can deploy this for free on Vercel in one click from here
+
+    https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdanielfalbo%2Fprev.py
+
   or it's obviously also ready to be deployed anywhere and everywhere else.
 
 STATIC SITE GENERATION
