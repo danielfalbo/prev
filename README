@@ -200,6 +200,8 @@ PRINCIPLES
 
 TODO, MAYBE
 
+  - Compress gallery images
+
   - Drop 'RELATIONSHIPS' in favour of native SQLite views.
 
   - Introduce SNIPPETS(id, slug, txt, created_time, author_id).
